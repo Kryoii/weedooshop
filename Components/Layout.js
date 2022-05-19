@@ -10,11 +10,11 @@ import Stack from "@mui/material/Stack";
 import React from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-import AccountCircle from "@mui/icons-material/AccountCircle";
 import Facebook from "@mui/icons-material/Facebook";
 import Instagram from "@mui/icons-material/Instagram";
 import Twitter from "@mui/icons-material/Twitter";
-import YouTube from "@mui/icons-material/Youtube";
+import YouTube from "@mui/icons-material/YouTube";
+
 import Search from "@mui/icons-material/Search";
 import ShoppingCart from "@mui/icons-material/ShoppingCart";
 import Image from "next/image";

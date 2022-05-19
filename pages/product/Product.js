@@ -17,7 +17,8 @@ import IconButton from "@mui/material/IconButton";
 import Facebook from "@mui/icons-material/Facebook";
 import Instagram from "@mui/icons-material/Instagram";
 import Twitter from "@mui/icons-material/Twitter";
-import YouTube from "@mui/icons-material/Youtube";
+import YouTube from "@mui/icons-material/YouTube";
+
 import Image from "next/image";
 import React from "react";
 import { SwiperSlide, Swiper } from "swiper/react";
