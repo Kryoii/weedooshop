@@ -1,0 +1,7 @@
+.thumb_slide {
+  height: 100px !important;
+}
+
+.thumb_slide.swiper-slide-active .thumb_box {
+  border: 1px solid #000;
+}
