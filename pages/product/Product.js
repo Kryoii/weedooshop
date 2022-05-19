@@ -55,6 +55,8 @@ function ProductComponent(props) {
   const { fetchProductVariant, productVariant, addItemToCart } =
     useContext(ShopContext);
 
+  const [slide, setslide] = useState([]);
+  const [swiperInstance, setSwiper] = useState(null);
   useEffect(() => {
     if (alignment !== null && color !== null) {
       fetchProductVariant(product, alignment, color);
@@ -62,10 +64,24 @@ function ProductComponent(props) {
   }, [alignment, color]);
 
   useEffect(() => {
+    console.log(product);
     if (productVariant) {
       setsum(productVariant.sku);
     }
   }, [productVariant]);
+
+  useEffect(() => {
+    product.images.forEach((a, index) => {
+      switch (a.altText) {
+        case "Black 1":
+          setslide((prev) => [...prev, index]);
+          break;
+        case "White 1":
+          setslide((prev) => [...prev, index]);
+          break;
+      }
+    });
+  }, []);
 
   return (
     <Grid container height={650}>
@@ -79,7 +95,7 @@ function ProductComponent(props) {
           modules={[Thumbs, Mousewheel, FreeMode]}
           slidesPerView={"auto"}
           style={{
-            height: "100%",
+            height: "70%",
           }}
           spaceBetween={30}
         >
@@ -101,7 +117,11 @@ function ProductComponent(props) {
         </Swiper>
       </Grid>
       <Grid item xs={12} md={5} pl={3}>
-        <Swiper thumbs={{ swiper: thumbsSwiper }} modules={[Thumbs]}>
+        <Swiper
+          onSwiper={setSwiper}
+          thumbs={{ swiper: thumbsSwiper }}
+          modules={[Thumbs]}
+        >
           {product &&
             product.images.map((a) => {
               return (
@@ -222,7 +242,7 @@ function ProductComponent(props) {
             aria-label="White"
           >
             {product &&
-              product.options[1].values.map((a) => {
+              product.options[1].values.map((a, index) => {
                 return (
                   <ToggleButton
                     key={a.value}
@@ -261,6 +281,9 @@ function ProductComponent(props) {
                           opacity: 1,
                         },
                       },
+                    }}
+                    onClick={() => {
+                      swiperInstance.slideTo(slide[index]);
                     }}
                   >
                     <span className="dot_active"></span>
