@@ -27,28 +27,29 @@ import "swiper/css/thumbs";
 import "swiper/css/free-mode";
 
 import "swiper/css";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import { FreeMode, Mousewheel, Thumbs } from "swiper";
 import { colorSwitch } from "../../Components/ColorSwitch";
-import { useEffect } from "react";
-import { useContext } from "react";
 import { ShopContext } from "../../Components/Utility";
+import { useRouter } from "next/router";
 function ProductComponent(props) {
-  const { product } = props;
-  const [alignment, setAlignment] = React.useState(
-    product ? product.options[0].values[0].value : "M"
-  );
-  const [color, setColor] = React.useState(
-    product ? product.options[1].values[0].value : ""
-  );
+  const {
+    product,
+    stock,
+    priceOG,
+    currentSize,
+    currentColor,
+    imageSlide,
+    title,
+    description,
+    sizes,
+    colors,
+  } = props;
+  const [alignment, setAlignment] = useState(currentSize);
+  const [color, setColor] = useState(currentColor);
 
-  const [sum, setsum] = useState(
-    product
-      ? product.variants.reduce(function (prev, current) {
-          return prev + +current.sku;
-        }, 0)
-      : "0"
-  );
+  const [sum, setsum] = useState(stock);
+  const [price, setprice] = useState(priceOG);
 
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
@@ -57,30 +58,64 @@ function ProductComponent(props) {
 
   const [slide, setslide] = useState([]);
   const [swiperInstance, setSwiper] = useState(null);
+  const router = useRouter();
+
   useEffect(() => {
-    if (alignment !== null && color !== null) {
+    if (color !== "" && alignment !== "") {
       fetchProductVariant(product, alignment, color);
     }
   }, [alignment, color]);
 
   useEffect(() => {
-    console.log(product);
-    if (productVariant) {
-      setsum(productVariant.sku);
-    }
+    setsum(stock);
+    setprice(priceOG);
+  }, [stock, priceOG]);
+
+  useEffect(() => {
+    setsum(productVariant.sku);
+    setprice(productVariant.price);
   }, [productVariant]);
 
   useEffect(() => {
     product.images.forEach((a, index) => {
       switch (a.altText) {
-        case "Black 1":
+        case "Black":
           setslide((prev) => [...prev, index]);
           break;
-        case "White 1":
+        case "White":
+          setslide((prev) => [...prev, index]);
+          break;
+        case "Dark Grey":
+          setslide((prev) => [...prev, index]);
+          break;
+        case "Light Gret":
+          setslide((prev) => [...prev, index]);
+          break;
+        case "Beige Green":
+          setslide((prev) => [...prev, index]);
+          break;
+        case "Washed-out Red":
+          setslide((prev) => [...prev, index]);
+          break;
+        case "Navy Blue":
           setslide((prev) => [...prev, index]);
           break;
       }
     });
+  }, [product]);
+
+  useEffect(() => {
+    const handleRouteChange = (url) => {
+      setslide([]);
+      if (swiperInstance !== null) {
+        swiperInstance.slideTo(0);
+      }
+    };
+
+    router.events.on("routeChangeStart", handleRouteChange);
+    return () => {
+      router.events.off("routeChangeStart", handleRouteChange);
+    };
   }, []);
 
   return (
@@ -98,9 +133,10 @@ function ProductComponent(props) {
             height: "70%",
           }}
           spaceBetween={30}
+          initialSlide={0}
         >
-          {product &&
-            product.images.map((a) => {
+          {imageSlide &&
+            imageSlide.map((a) => {
               return (
                 <SwiperSlide className="thumb_slide" key={a.src}>
                   <Box position="relative" height="100px" className="thumb_box">
@@ -121,9 +157,10 @@ function ProductComponent(props) {
           onSwiper={setSwiper}
           thumbs={{ swiper: thumbsSwiper }}
           modules={[Thumbs]}
+          initialSlide={0}
         >
-          {product &&
-            product.images.map((a) => {
+          {imageSlide &&
+            imageSlide.map((a) => {
               return (
                 <SwiperSlide key={a.src}>
                   <Box position="relative" height="500px">
@@ -161,11 +198,11 @@ function ProductComponent(props) {
                 maxWidth: 300,
               }}
             >
-              {product && product.title}
+              {title}
             </Typography>
             <Stack direction="row">
               <Typography variant="body1" fontWeight="bold">
-                $ {product && product.variants[0].price}
+                $ {price}
               </Typography>
               <Divider
                 flexItem
@@ -237,12 +274,14 @@ function ProductComponent(props) {
             value={color}
             exclusive
             onChange={(e, newAlignment) => {
-              setColor(newAlignment);
+              if (newAlignment !== null) {
+                setColor(newAlignment);
+              }
             }}
             aria-label="White"
           >
-            {product &&
-              product.options[1].values.map((a, index) => {
+            {colors &&
+              colors.values.map((a, index) => {
                 return (
                   <ToggleButton
                     key={a.value}
@@ -336,12 +375,14 @@ function ProductComponent(props) {
             value={alignment}
             exclusive
             onChange={(e, newAlignment) => {
-              setAlignment(newAlignment);
+              if (newAlignment !== null) {
+                setAlignment(newAlignment);
+              }
             }}
             aria-label="S"
           >
-            {product &&
-              product.options[0].values.map((a) => {
+            {sizes &&
+              sizes.values.map((a) => {
                 return (
                   <ToggleButton
                     key={a.value}

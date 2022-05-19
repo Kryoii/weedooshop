@@ -4,9 +4,21 @@ import ProductComponent from "./Product";
 import Recommendation from "./recommendation";
 import Client from "shopify-buy";
 function Product(props) {
+  console.log(props.images);
   return (
     <Layout title="Product">
-      <ProductComponent product={JSON.parse(props.product)} />
+      <ProductComponent
+        product={JSON.parse(props.product)}
+        stock={props.stock}
+        priceOG={props.price}
+        currentColor={props.currentColor}
+        currentSize={props.currentSize}
+        imageSlide={props.images}
+        title={props.title}
+        description={props.description}
+        colors={props.colors}
+        sizes={props.sizes}
+      />
       <Recommendation products={JSON.parse(props.recommendation)} />
     </Layout>
   );
@@ -29,9 +41,26 @@ export async function getServerSideProps(context) {
     `gid://shopify/Product/${id}`
   );
 
+  const selectedVariant = await client.product.helpers.variantForOptions(
+    product_item,
+    {
+      Size: product_item.options[0].values[0].value,
+      Color: product_item.options[1].values[0].value,
+    }
+  );
+
   return {
     props: {
       product: JSON.stringify(product_item),
+      stock: selectedVariant.sku,
+      currentSize: product_item.options[0].values[0].value,
+      currentColor: product_item.options[1].values[0].value,
+      price: product_item.variants[0].price,
+      images: JSON.parse(JSON.stringify(product_item.images)),
+      colors: JSON.parse(JSON.stringify(product_item.options[1])),
+      sizes: JSON.parse(JSON.stringify(product_item.options[0])),
+      title: product_item.title,
+      description: product_item.description,
       recommendation: JSON.stringify(recommendation),
     },
   };
