@@ -34,7 +34,6 @@ import { ShopContext } from "../../Components/Utility";
 import { useRouter } from "next/router";
 function ProductComponent(props) {
   const {
-    product,
     stock,
     priceOG,
     currentSize,
@@ -44,6 +43,7 @@ function ProductComponent(props) {
     description,
     sizes,
     colors,
+    productID,
   } = props;
   const [alignment, setAlignment] = useState(currentSize);
   const [color, setColor] = useState(currentColor);
@@ -53,23 +53,23 @@ function ProductComponent(props) {
 
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
-  const { fetchProductVariant, productVariant, addItemToCart } =
-    useContext(ShopContext);
+  const {
+    fetchProductVariant,
+    productVariant,
+    addItemToCart,
+    fetchProductWithId,
+    product,
+  } = useContext(ShopContext);
 
   const [slide, setslide] = useState([]);
   const [swiperInstance, setSwiper] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
-    if (color !== "" && alignment !== "") {
+    if (Object.keys(product).length !== 0) {
       fetchProductVariant(product, alignment, color);
     }
-  }, [alignment, color]);
-
-  useEffect(() => {
-    setsum(stock);
-    setprice(priceOG);
-  }, [stock, priceOG]);
+  }, [alignment, color, product]);
 
   useEffect(() => {
     setsum(productVariant.sku);
@@ -77,7 +77,11 @@ function ProductComponent(props) {
   }, [productVariant]);
 
   useEffect(() => {
-    product.images.forEach((a, index) => {
+    fetchProductWithId(`gid://shopify/Product/${productID}`);
+  }, [productID]);
+
+  useEffect(() => {
+    imageSlide.forEach((a, index) => {
       switch (a.altText) {
         case "Black":
           setslide((prev) => [...prev, index]);
@@ -102,7 +106,7 @@ function ProductComponent(props) {
           break;
       }
     });
-  }, [product]);
+  }, [imageSlide]);
 
   useEffect(() => {
     const handleRouteChange = (url) => {
@@ -333,11 +337,7 @@ function ProductComponent(props) {
           <Stack direction="row" spacing={1}></Stack>
         </Stack>
         <Typography variant="body1" mt={2} mb={5}>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum hic
-          soluta quas, aut cum ipsa voluptas excepturi id, quod saepe nesciunt
-          mollitia, sed debitis corporis explicabo iste tempore consequuntur
-          totam. Laudantium asperiores nobis quisquam accusamus distinctio eum
-          explicabo recusandae ducimus!
+          {description}
         </Typography>
         <Stack
           sx={{

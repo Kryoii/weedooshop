@@ -4,11 +4,9 @@ import ProductComponent from "./Product";
 import Recommendation from "./recommendation";
 import Client from "shopify-buy";
 function Product(props) {
-  console.log(props.images);
   return (
     <Layout title="Product">
       <ProductComponent
-        product={JSON.parse(props.product)}
         stock={props.stock}
         priceOG={props.price}
         currentColor={props.currentColor}
@@ -18,6 +16,7 @@ function Product(props) {
         description={props.description}
         colors={props.colors}
         sizes={props.sizes}
+        productID={props.productID}
       />
       <Recommendation products={JSON.parse(props.recommendation)} />
     </Layout>
@@ -51,7 +50,6 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      product: JSON.stringify(product_item),
       stock: selectedVariant.sku,
       currentSize: product_item.options[0].values[0].value,
       currentColor: product_item.options[1].values[0].value,
@@ -62,6 +60,7 @@ export async function getServerSideProps(context) {
       title: product_item.title,
       description: product_item.description,
       recommendation: JSON.stringify(recommendation),
+      productID: id,
     },
   };
 }
