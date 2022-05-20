@@ -18,9 +18,16 @@ import { ShopContext } from "./Utility";
 import { useEffect } from "react";
 import { colorSwitch } from "./ColorSwitch";
 
-function Sidebar({ open, onClose }) {
-  const { checkout, disabledButtons, updateItem, inputs, updateInput } =
-    useContext(ShopContext);
+function Sidebar() {
+  const {
+    checkout,
+    disabledButtons,
+    updateItem,
+    removeItem,
+    updateInput,
+    sidebar,
+    closeSidebar,
+  } = useContext(ShopContext);
   useEffect(() => {
     console.log(checkout);
   }, [checkout]);
@@ -28,8 +35,8 @@ function Sidebar({ open, onClose }) {
   return (
     <Drawer
       anchor="right"
-      open={open}
-      onClose={onClose}
+      open={sidebar}
+      onClose={closeSidebar}
       PaperProps={{
         sx: {
           minWidth: 450,
@@ -67,7 +74,7 @@ function Sidebar({ open, onClose }) {
           >
             Cart
           </Typography>
-          <IconButton onClick={onClose}>
+          <IconButton onClick={() => closeSidebar()}>
             <Close />
           </IconButton>
         </Stack>
@@ -116,13 +123,26 @@ function Sidebar({ open, onClose }) {
                         flexGrow: 1,
                       }}
                     >
-                      <Typography
-                        variant="h6"
-                        fontWeight="medium"
-                        maxWidth={250}
+                      <Stack
+                        direction="row"
+                        justifyContent="space-between"
+                        alignItems="flex-start"
                       >
-                        {a.title}
-                      </Typography>
+                        <Typography
+                          variant="h6"
+                          fontWeight="medium"
+                          maxWidth={250}
+                        >
+                          {a.title}
+                        </Typography>
+                        <IconButton
+                          disableRipple
+                          sx={{ p: 0 }}
+                          onClick={() => removeItem(a.id, a.variant.id)}
+                        >
+                          <Close />
+                        </IconButton>
+                      </Stack>
                       <Stack spacing={1} direction="row">
                         <Box
                           sx={{
@@ -207,15 +227,19 @@ function Sidebar({ open, onClose }) {
                                 : a.quantity
                             }
                             onChange={(e) => {
-                              updateInput(e.target.value, i);
+                              if (e.target.value !== "0") {
+                                updateInput(e.target.value, i);
+                              }
                             }}
                             onKeyPress={(event) => {
                               if (!/[0-9]/.test(event.key)) {
                                 event.preventDefault();
                               }
                               if (
-                                event.key === "Enter" ||
-                                event.keyCode === 13
+                                (event.key === "Enter" &&
+                                  event.target.value !== "0") ||
+                                (event.keyCode === 13 &&
+                                  event.target.value !== "0")
                               ) {
                                 updateItem(
                                   a.variant.id,

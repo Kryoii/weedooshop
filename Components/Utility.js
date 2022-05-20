@@ -17,7 +17,7 @@ function Utility(props) {
     product: {},
     productVariant: {},
     checkout: {},
-    isCartOpen: false,
+    sidebar: false,
     disabledButtons: [],
   });
   const createCheckout = async () => {
@@ -51,6 +51,7 @@ function Utility(props) {
   };
 
   const addItemToCart = async (variantId, quantity) => {
+    openSidebar();
     const lineItemsToAdd = [
       {
         customAttributes: [{ key: "created_at", value: new Date() }],
@@ -214,16 +215,24 @@ function Utility(props) {
 
     Cookies.set("cart", checkout_.id);
   };
-
-  useEffect(() => {
-    console.log(Cookies.get("cart"));
-    if (Cookies.get("cart")) {
-      fetchCheckout(Cookies.get("cart"));
-    } else {
-      createCheckout();
-    }
-  }, []);
-
+  const removeItem = async (id, variantId) => {
+    await client.checkout.removeLineItems(state.checkout.id, [id]).then((b) => {
+      setstate((prev) => ({
+        ...prev,
+        checkout: b,
+      }));
+      setstate((prev) => ({
+        ...prev,
+        disabledButtons: prev.disabledButtons
+          .filter((a) => {
+            return a.id !== variantId;
+          })
+          .sort(function (a, b) {
+            return new Date(b.date) - new Date(a.date);
+          }),
+      }));
+    });
+  };
   const updateInput = (newInput, index) => {
     const newInputs = [...state.disabledButtons];
     newInputs[index].value = newInput;
@@ -234,6 +243,28 @@ function Utility(props) {
       };
     });
   };
+
+  const openSidebar = () => {
+    setstate((prev) => ({
+      ...prev,
+      sidebar: true,
+    }));
+  };
+  const closeSidebar = () => {
+    setstate((prev) => ({
+      ...prev,
+      sidebar: false,
+    }));
+  };
+
+  useEffect(() => {
+    console.log(Cookies.get("cart"));
+    if (Cookies.get("cart")) {
+      fetchCheckout(Cookies.get("cart"));
+    } else {
+      createCheckout();
+    }
+  }, []);
 
   useEffect(() => {
     Cookies.set("cart", state.checkout.id);
@@ -257,6 +288,10 @@ function Utility(props) {
     });
   }, [state.checkout]);
 
+  // useEffect(() => {
+  //   console.log(state.disabledButtons);
+  // }, [state.disabledButtons]);
+
   return (
     <ShopContext.Provider
       value={{
@@ -268,6 +303,9 @@ function Utility(props) {
         updateItem: updateItem,
         fetchProductVariant: fetchProductVariant,
         updateInput: updateInput,
+        removeItem: removeItem,
+        openSidebar: openSidebar,
+        closeSidebar: closeSidebar,
       }}
     >
       {props.children}

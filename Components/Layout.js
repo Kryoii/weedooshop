@@ -1,4 +1,3 @@
-import Toolbar from "@mui/material/Toolbar";
 import AppBar from "@mui/material/AppBar";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
@@ -21,10 +20,14 @@ import Image from "next/image";
 import Head from "next/head";
 import { useRef } from "react";
 import { useState } from "react";
-import { Popover } from "@mui/material";
+import { Badge, Popover } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import Link from "next/link";
 import Sidebar from "./Sidebar";
+import { useContext } from "react";
+import { ShopContext } from "./Utility";
+
+import Cookies from "js-cookie";
 
 function Layout(props) {
   const useStyles = makeStyles((theme) => ({
@@ -44,7 +47,7 @@ function Layout(props) {
   const [accPopOver, setaccPopOver] = useState(false);
   const accPopoverRef = useRef(null);
 
-  const [sideBar, setSideBar] = useState(false);
+  const { openSidebar, checkout } = useContext(ShopContext);
 
   const theme = createTheme({
     palette: {
@@ -285,22 +288,26 @@ function Layout(props) {
                   color: "#000",
                 }}
                 onClick={() => {
-                  setSideBar(true);
+                  openSidebar();
                 }}
               >
-                <ShoppingCart />
+                <Badge
+                  badgeContent={
+                    checkout.lineItems
+                      ? checkout.lineItems.length
+                      : Cookies.get("cartLength")
+                  }
+                  color="primary"
+                >
+                  <ShoppingCart />
+                </Badge>
               </IconButton>
             </Box>
           </Box>
         </Container>
         <Divider />
       </AppBar>
-      <Sidebar
-        open={sideBar}
-        onClose={() => {
-          setSideBar(false);
-        }}
-      />
+      <Sidebar />
       <Container
         fixed
         sx={{
