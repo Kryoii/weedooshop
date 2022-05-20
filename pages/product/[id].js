@@ -5,7 +5,7 @@ import Recommendation from "./recommendation";
 import Client from "shopify-buy";
 function Product(props) {
   return (
-    <Layout title="Product">
+    <Layout title={props.title} description={props.description}>
       <ProductComponent
         stock={props.stock}
         priceOG={props.price}

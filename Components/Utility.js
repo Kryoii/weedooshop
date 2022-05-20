@@ -26,11 +26,20 @@ function Utility(props) {
       ...prev,
       checkout: checkout,
     }));
-    setstate((prev) => ({
-      ...prev,
-      disabledButtons: new Array(checkout.lineItems.length),
-    }));
-    Cookies.set("cart", checkout.id);
+    checkout.lineItems?.forEach((a, inde) => {
+      setstate((prev) => ({
+        ...prev,
+        disabledButtons: [
+          ...prev.disabledButtons,
+          {
+            button: false,
+            id: a.variant.id,
+            value: a.quantity,
+            date: new Date(),
+          },
+        ],
+      }));
+    });
   };
 
   const fetchAllProducts = async () => {
@@ -50,52 +59,109 @@ function Utility(props) {
       },
     ];
 
-    const checkout_ = await client.checkout.addLineItems(
-      state.checkout.id,
-      lineItemsToAdd
+    const obj = state.checkout.lineItems.filter(
+      (e) => e.variant.id === variantId
     );
-    setstate((prev) => ({
-      ...prev,
-      checkout: checkout_,
-    }));
-    localStorage.setItem("cart", checkout_.id);
-    Cookies.set("cartLength", checkout_.lineItems.length);
+
+    if (obj.length > 0) {
+      await client.checkout
+        .updateLineItems(state.checkout.id, [
+          {
+            id: obj[0].id,
+            variantId: variantId,
+            quantity: parseInt(obj[0].quantity + 1, 10),
+          },
+        ])
+        .then((b) => {
+          setstate((prev) => ({
+            ...prev,
+            checkout: b,
+          }));
+        });
+    } else {
+      const checkout_ = await client.checkout.addLineItems(
+        state.checkout.id,
+        lineItemsToAdd
+      );
+      setstate((prev) => ({
+        ...prev,
+        checkout: checkout_,
+      }));
+      setstate((prev) => ({
+        ...prev,
+        disabledButtons: [
+          ...prev.disabledButtons,
+          {
+            button: false,
+            id: variantId,
+            value: quantity,
+            date: new Date(),
+          },
+        ],
+      }));
+
+      Cookies.set("cartLength", checkout_.lineItems.length);
+    }
   };
 
   const updateItem = async (variantId, id, quantity, index) => {
-    setstate((oldState) => {
-      const newDisabledButtons = [...oldState.disabledButtons];
-      newDisabledButtons[index] = true;
-      return {
-        ...oldState,
-        disabledButtons: newDisabledButtons,
-      };
-    });
-
-    await client.checkout
-      .updateLineItems(state.checkout.id, [
-        {
-          id: id,
-          variantId: variantId,
-          quantity: parseInt(quantity, 10),
-        },
-      ])
-      .then((b) => {
-        setstate((oldState) => {
-          const newDisabledButtons = [...oldState.disabledButtons];
-          newDisabledButtons[index] = false;
-          return {
-            ...oldState,
-            disabledButtons: newDisabledButtons,
-          };
+    if (quantity === "0" || parseInt(quantity, 10) <= 0) {
+      await client.checkout
+        .updateLineItems(state.checkout.id, [
+          {
+            id: id,
+            variantId: variantId,
+            quantity: parseInt(quantity, 10),
+          },
+        ])
+        .then((b) => {
+          setstate((prev) => ({
+            ...prev,
+            checkout: b,
+          }));
+          setstate((prev) => ({
+            ...prev,
+            disabledButtons: prev.disabledButtons
+              .filter((a) => {
+                return a.id !== variantId;
+              })
+              .sort(function (a, b) {
+                return new Date(b.date) - new Date(a.date);
+              }),
+          }));
         });
-
-        setstate((prev) => ({
-          ...prev,
-          checkout: b,
-        }));
-        localStorage.setItem("cart", checkout_.id);
+    } else {
+      setstate((oldState) => {
+        const newDisabledButtons = [...oldState.disabledButtons];
+        newDisabledButtons[index].button = true;
+        return {
+          ...oldState,
+          disabledButtons: newDisabledButtons,
+        };
       });
+      await client.checkout
+        .updateLineItems(state.checkout.id, [
+          {
+            id: id,
+            variantId: variantId,
+            quantity: parseInt(quantity, 10),
+          },
+        ])
+        .then((b) => {
+          setstate((oldState) => {
+            const newDisabledButtons = [...oldState.disabledButtons];
+            newDisabledButtons[index].button = false;
+            return {
+              ...oldState,
+              disabledButtons: newDisabledButtons,
+            };
+          });
+          setstate((prev) => ({
+            ...prev,
+            checkout: b,
+          }));
+        });
+    }
   };
 
   const fetchProductWithId = async (id) => {
@@ -126,14 +192,31 @@ function Utility(props) {
       ...prev,
       checkout: checkout_,
     }));
-    setstate((prev) => ({
-      ...prev,
-      disabledButtons: new Array(checkout_.lineItems.length).fill(false),
-    }));
+
+    if (state.disabledButtons.length === 0) {
+      checkout_.lineItems?.forEach((a, inde) => {
+        setstate((prev) => ({
+          ...prev,
+          disabledButtons: [
+            ...prev.disabledButtons,
+            {
+              button: false,
+              id: a.variant.id,
+              value: a.quantity,
+              date: new Date(),
+            },
+          ].sort(function (a, b) {
+            return new Date(b.date) - new Date(a.date);
+          }),
+        }));
+      });
+    }
+
     Cookies.set("cart", checkout_.id);
   };
 
   useEffect(() => {
+    console.log(Cookies.get("cart"));
     if (Cookies.get("cart")) {
       fetchCheckout(Cookies.get("cart"));
     } else {
@@ -141,8 +224,37 @@ function Utility(props) {
     }
   }, []);
 
+  const updateInput = (newInput, index) => {
+    const newInputs = [...state.disabledButtons];
+    newInputs[index].value = newInput;
+    setstate((oldState) => {
+      return {
+        ...oldState,
+        disabledButtons: newInputs,
+      };
+    });
+  };
+
   useEffect(() => {
-    console.log(state.checkout);
+    Cookies.set("cart", state.checkout.id);
+    setstate((prev) => ({
+      ...prev,
+      disabledButtons: [],
+    }));
+    state.checkout.lineItems?.forEach((a, inde) => {
+      setstate((prev) => ({
+        ...prev,
+        disabledButtons: [
+          ...prev.disabledButtons,
+          {
+            button: false,
+            id: a.variant.id,
+            value: a.quantity,
+            date: new Date(),
+          },
+        ],
+      }));
+    });
   }, [state.checkout]);
 
   return (
@@ -155,6 +267,7 @@ function Utility(props) {
         fetchProductWithId: fetchProductWithId,
         updateItem: updateItem,
         fetchProductVariant: fetchProductVariant,
+        updateInput: updateInput,
       }}
     >
       {props.children}

@@ -247,7 +247,7 @@ function ProductComponent(props) {
               minHeight: 50,
             }}
             onClick={() => {
-              addItemToCart(productVariant.id, 1);
+              addItemToCart(productVariant.id, 1, product.id);
             }}
           >
             <ShoppingCartOutlined
