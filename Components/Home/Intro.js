@@ -200,7 +200,7 @@ function Intro() {
           cols={2}
           rows={3}
           sx={{
-            display: { xs: "none", md: "none" },
+            display: { xs: "none", md: "inline-block" },
           }}
         >
           <GridBox
@@ -267,7 +267,7 @@ function Intro() {
           cols={2}
           rows={3}
           sx={{
-            display: { xs: "none", md: "none" },
+            display: { xs: "none", md: "inline-block" },
           }}
         >
           <GridBox
