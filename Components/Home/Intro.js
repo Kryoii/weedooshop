@@ -62,14 +62,19 @@ function Intro() {
         sx={{
           width: "100%",
           height: "600px",
-          overflow: "hidden",
+          overflow: "visible",
           mb: 12,
         }}
         variant="quilted"
         cols={4}
         rows={6}
       >
-        <ImageListItem cols={2} rows={6}>
+        <ImageListItem
+          sx={{
+            gridColumnEnd: { xs: "span 4!important", md: "span 2!important" },
+          }}
+          rows={6}
+        >
           <div className="intro-pagination"></div>
           <Swiper
             pagination={{
@@ -191,7 +196,13 @@ function Intro() {
             </SwiperSlide>
           </Swiper>
         </ImageListItem>
-        <ImageListItem cols={2} rows={3}>
+        <ImageListItem
+          cols={2}
+          rows={3}
+          sx={{
+            display: { xs: "none", md: "none" },
+          }}
+        >
           <GridBox
             sx={{
               height: 300,
@@ -252,7 +263,13 @@ function Intro() {
             ></Image>
           </GridBox>
         </ImageListItem>
-        <ImageListItem cols={2} rows={3}>
+        <ImageListItem
+          cols={2}
+          rows={3}
+          sx={{
+            display: { xs: "none", md: "none" },
+          }}
+        >
           <GridBox
             sx={{
               height: 300,

@@ -7,7 +7,8 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { colorSwitch } from "../../Components/ColorSwitch";
-function MenSection(props) {
+
+function MenSection({ products, LoadMore, currentCount }) {
   return (
     <Stack my={3}>
       <Box
@@ -24,8 +25,8 @@ function MenSection(props) {
           gap: "20px",
         }}
       >
-        {props.products &&
-          props.products.map((a, i) => {
+        {products &&
+          products.map((a, i) => {
             return (
               <ImageListItem col={1} key={a.title}>
                 <Link href={`/product/${a.id.split("/")[4]}`} passHref>
@@ -95,26 +96,35 @@ function MenSection(props) {
           })}
       </Box>
 
-      <Button
-        variant="outlined"
-        sx={{
-          mt: 5,
-          position: "relative",
-          zIndex: 1,
-          color: "#000",
-          borderWidth: "5px",
-          borderColor: "#000",
-          borderRadius: "0px",
-          mx: "auto",
-          px: 4,
-          "&:hover": {
-            borderWidth: "5px",
-            borderColor: "#4d4d4d",
-          },
-        }}
-      >
-        View More
-      </Button>
+      {products && (
+        <>
+          {products.length === currentCount - 4 && (
+            <Button
+              variant="outlined"
+              sx={{
+                mt: 5,
+                position: "relative",
+                zIndex: 1,
+                color: "#000",
+                borderWidth: "5px",
+                borderColor: "#000",
+                borderRadius: "0px",
+                mx: "auto",
+                px: 4,
+                "&:hover": {
+                  borderWidth: "5px",
+                  borderColor: "#4d4d4d",
+                },
+              }}
+              onClick={() => {
+                LoadMore();
+              }}
+            >
+              View More
+            </Button>
+          )}
+        </>
+      )}
     </Stack>
   );
 }

@@ -27,8 +27,8 @@ function Recommendation(props) {
       <div className="featured-next-arrow swiper-button-next"></div>
       <div className="featured-prev-arrow swiper-button-prev"></div>
       <Swiper
-        slidesPerView={"3"}
         spaceBetween={50}
+        slidesPerView={2}
         navigation={{
           nextEl: ".featured-next-arrow",
           prevEl: ".featured-prev-arrow",
@@ -36,6 +36,11 @@ function Recommendation(props) {
         centeredSlides
         loop
         modules={[Navigation]}
+        breakpoints={{
+          600: {
+            slidesPerView: 3,
+          },
+        }}
       >
         {props.products &&
           props.products.map((a, i) => {

@@ -108,13 +108,18 @@ function Featured() {
           <div className="featured-next-arrow swiper-button-next"></div>
           <div className="featured-prev-arrow swiper-button-prev"></div>
           <Swiper
-            slidesPerView={"3"}
+            slidesPerView={2}
             spaceBetween={50}
             navigation={{
               nextEl: ".featured-next-arrow",
               prevEl: ".featured-prev-arrow",
             }}
-            centeredSlides
+            // centeredSlides
+            breakpoints={{
+              900: {
+                slidesPerView: 3,
+              },
+            }}
             loop
             modules={[Navigation]}
           >

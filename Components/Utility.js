@@ -8,7 +8,7 @@ const ShopContext = new React.createContext({});
 
 const client = Client.buildClient({
   domain: "nexttestapp.myshopify.com",
-  storefrontAccessToken: "f13d038748e2df2e871efc59da57ffb3",
+  storefrontAccessToken: "b79f30d31076cf3e3c77255d8ba8801c",
 });
 
 function Utility(props) {
@@ -18,6 +18,7 @@ function Utility(props) {
     productVariant: {},
     checkout: {},
     sidebar: false,
+    sidebarMenu: false,
     disabledButtons: [],
   });
   const createCheckout = async () => {
@@ -243,6 +244,7 @@ function Utility(props) {
   const openSidebar = () => {
     setstate((prev) => ({
       ...prev,
+      sidebarMenu: false,
       sidebar: true,
     }));
   };
@@ -250,6 +252,20 @@ function Utility(props) {
     setstate((prev) => ({
       ...prev,
       sidebar: false,
+    }));
+  };
+
+  const openMenuSidebar = () => {
+    setstate((prev) => ({
+      ...prev,
+      sidebar: false,
+      sidebarMenu: true,
+    }));
+  };
+  const closeMenuSidebar = () => {
+    setstate((prev) => ({
+      ...prev,
+      sidebarMenu: false,
     }));
   };
 
@@ -303,6 +319,8 @@ function Utility(props) {
         removeItem: removeItem,
         openSidebar: openSidebar,
         closeSidebar: closeSidebar,
+        openMenuSidebar: openMenuSidebar,
+        closeMenuSidebar: closeMenuSidebar,
       }}
     >
       {props.children}

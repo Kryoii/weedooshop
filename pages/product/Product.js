@@ -72,8 +72,8 @@ function ProductComponent(props) {
   }, [alignment, color, product]);
 
   useEffect(() => {
-    setsum(productVariant.sku);
-    setprice(productVariant.price);
+    setsum(productVariant?.sku);
+    setprice(productVariant?.price);
   }, [productVariant]);
 
   useEffect(() => {
@@ -123,8 +123,21 @@ function ProductComponent(props) {
   }, []);
 
   return (
-    <Grid container height={650}>
-      <Grid item md={1} height="650px">
+    <Grid
+      container
+      minHeight={550}
+      sx={{
+        mb: { xs: 12, md: 6 },
+      }}
+    >
+      <Grid
+        item
+        md={1}
+        height="650px"
+        sx={{
+          display: { xs: "none", lg: "block" },
+        }}
+      >
         <Swiper
           scrollbar={true}
           onSwiper={setThumbsSwiper}
@@ -156,7 +169,14 @@ function ProductComponent(props) {
             })}
         </Swiper>
       </Grid>
-      <Grid item xs={12} md={5} pl={3}>
+      <Grid
+        item
+        xs={12}
+        md={5}
+        sx={{
+          pl: { lg: 3 },
+        }}
+      >
         <Swiper
           onSwiper={setSwiper}
           thumbs={{ swiper: thumbsSwiper }}
@@ -181,7 +201,7 @@ function ProductComponent(props) {
         </Swiper>
       </Grid>
 
-      <Grid item xs={12} md={6} pl={4} pt={2}>
+      <Grid item xs={12} md={7} lg={6} pl={4} pt={2}>
         <Stack
           direction="row"
           justifyContent="space-between"
@@ -190,7 +210,14 @@ function ProductComponent(props) {
             mb: 2,
           }}
         >
-          <Box>
+          <Box
+            sx={{
+              width: { xs: "100%", md: "auto" },
+              display: { xs: "flex", md: "block" },
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
             <Typography
               variant="h4"
               component="h1"
@@ -199,13 +226,19 @@ function ProductComponent(props) {
                 fontWeight: "bold",
                 color: "#000",
                 lineHeight: 1.3,
-                maxWidth: 300,
+                maxWidth: 250,
               }}
             >
               {title}
             </Typography>
             <Stack direction="row">
-              <Typography variant="body1" fontWeight="bold">
+              <Typography
+                variant="body1"
+                fontWeight="bold"
+                sx={{
+                  display: { xs: "none", md: "block" },
+                }}
+              >
                 $ {price}
               </Typography>
               <Divider
@@ -213,6 +246,7 @@ function ProductComponent(props) {
                 orientation="vertical"
                 sx={{
                   mx: 1,
+                  display: { xs: "none", md: "block" },
                 }}
               />
               <Typography variant="body1" fontWeight="bold">
@@ -238,13 +272,13 @@ function ProductComponent(props) {
               borderWidth: "5px",
               borderColor: "#000",
               borderRadius: "0px",
-
               px: 3,
               "&:hover": {
                 borderWidth: "5px",
                 borderColor: "#4d4d4d",
               },
               minHeight: 50,
+              display: { xs: "none", md: "inline-flex" },
             }}
             onClick={() => {
               addItemToCart(productVariant.id, 1, product.id);
@@ -422,6 +456,7 @@ function ProductComponent(props) {
             },
             borderBottom: "1px solid",
             borderColor: "divider",
+            borderRadius: "0px!important",
           }}
         >
           <AccordionSummary
@@ -442,6 +477,36 @@ function ProductComponent(props) {
             </Typography>
           </AccordionDetails>
         </Accordion>
+        <Button
+          variant="outlined"
+          sx={{
+            position: "relative",
+            zIndex: 1,
+            color: "#000",
+            borderWidth: "5px",
+            borderColor: "#000",
+            borderRadius: "0px",
+            px: 3,
+            "&:hover": {
+              borderWidth: "5px",
+              borderColor: "#4d4d4d",
+            },
+            minHeight: 50,
+            width: "100%",
+            mt: 3,
+            display: { xs: "inline-flex", md: "none" },
+          }}
+          onClick={() => {
+            addItemToCart(productVariant.id, 1, product.id);
+          }}
+        >
+          <ShoppingCartOutlined
+            sx={{
+              mr: 2,
+            }}
+          />
+          Add to cart
+        </Button>
         <Box
           mt={5}
           sx={{

@@ -137,3 +137,20 @@ a {
   border: 2px solid #000;
   opacity: 1;
 }
+
+@media (max-width: 900px) {
+  .featured-next-arrow,
+  .featured-prev-arrow {
+    display: none !important;
+  }
+  .intro-pagination {
+    bottom: -30px !important;
+    justify-content: center;
+  }
+  .intro-pagination-bullet {
+    background-color: #000;
+  }
+  .intro-pagination-bullet-active {
+    background-color: #000;
+  }
+}

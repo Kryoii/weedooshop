@@ -24,7 +24,7 @@ export default function Home(props) {
 export async function getServerSideProps(context) {
   const client = Client.buildClient({
     domain: "nexttestapp.myshopify.com",
-    storefrontAccessToken: "f13d038748e2df2e871efc59da57ffb3",
+    storefrontAccessToken: "b79f30d31076cf3e3c77255d8ba8801c",
   });
 
   const menSection = await client.product.fetchQuery({

@@ -11,14 +11,17 @@ import ToggleButton from "@mui/material/ToggleButton";
 import React from "react";
 import { useContext } from "react";
 import { WomenShopContext } from "./utils";
+import { useState } from "react";
 
-function Header() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+function Header({ total, SortBy }) {
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const [filt, setfilt] = useState("Best Selling");
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
+  const handleClose = (ev) => {
+    setfilt(ev);
     setAnchorEl(null);
   };
 
@@ -38,7 +41,7 @@ function Header() {
         >
           Products
         </Typography>
-        <Typography color="text.primary">Women&apos;s</Typography>
+        <Typography color="text.primary">Men&apos;s</Typography>
       </Breadcrumbs>
       <Box
         mb={3}
@@ -64,7 +67,7 @@ function Header() {
         </Typography>
         <Box>
           <Typography variant="body1">Women&apos;s Apparel</Typography>
-          <Typography variant="body1">XX ⎯ Results</Typography>
+          <Typography variant="body1">{total} ⎯ Results</Typography>
         </Box>
       </Box>
       <Divider
@@ -192,7 +195,7 @@ function Header() {
             aria-expanded={open ? "true" : undefined}
             onClick={handleClick}
           >
-            <Typography variant="body1">Best Sellers</Typography>
+            <Typography variant="body1">{filt}</Typography>
             <KeyboardArrowDown
               sx={{
                 transition: "0.3s ease",
@@ -213,25 +216,79 @@ function Header() {
               sx={{
                 minWidth: "150px",
               }}
-              onClick={handleClose}
+              onClick={(ev) => {
+                SortBy("BEST_SELLING");
+                handleClose("Best Selling");
+              }}
             >
-              Test
+              Best Selling
             </MenuItem>
             <MenuItem
               sx={{
                 minWidth: "150px",
               }}
-              onClick={handleClose}
+              onClick={(ev) => {
+                SortBy("TITLE");
+                handleClose("Alphabetically, A-Z");
+              }}
             >
-              Test
+              Alphabetically, A-Z
             </MenuItem>
             <MenuItem
               sx={{
                 minWidth: "150px",
               }}
-              onClick={handleClose}
+              onClick={() => {
+                SortBy("TITLE", true);
+
+                handleClose("Alphabetically, Z-A");
+              }}
             >
-              Test
+              Alphabetically, Z-A
+            </MenuItem>
+            <MenuItem
+              sx={{
+                minWidth: "150px",
+              }}
+              onClick={() => {
+                SortBy("PRICE", true);
+                handleClose("Price, High to Low");
+              }}
+            >
+              Price, High to Low
+            </MenuItem>
+            <MenuItem
+              sx={{
+                minWidth: "150px",
+              }}
+              onClick={() => {
+                SortBy("PRICE");
+                handleClose("Price, Low to High");
+              }}
+            >
+              Price, Low to High
+            </MenuItem>
+            <MenuItem
+              sx={{
+                minWidth: "150px",
+              }}
+              onClick={() => {
+                SortBy("CREATED_AT", true);
+                handleClose("Newest");
+              }}
+            >
+              Newest
+            </MenuItem>
+            <MenuItem
+              sx={{
+                minWidth: "150px",
+              }}
+              onClick={() => {
+                SortBy("CREATED_AT");
+                handleClose("Oldest");
+              }}
+            >
+              Oldest
             </MenuItem>
           </Menu>
         </div>

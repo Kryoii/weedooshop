@@ -60,13 +60,13 @@ function JoinNow() {
   return (
     <Grid
       container
-      minHeight="250px"
-      columnSpacing={1}
+      spacing={1}
       sx={{
         mb: 12,
+        minHeight: { xs: 600, md: 250 },
       }}
     >
-      <Grid item md={4}>
+      <Grid item xs={12} md={4}>
         <Link href="/men" passHref>
           <a>
             <GridBox>
@@ -81,7 +81,7 @@ function JoinNow() {
           </a>
         </Link>
       </Grid>
-      <Grid item md={4}>
+      <Grid item xs={12} md={4}>
         <Link href="/women" passHref>
           <a>
             <GridBox>
@@ -96,7 +96,7 @@ function JoinNow() {
           </a>
         </Link>
       </Grid>
-      <Grid item md={4}>
+      <Grid item xs={12} md={4}>
         <Link href="/accessories" passHref>
           <a>
             <GridBox>

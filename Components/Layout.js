@@ -28,6 +28,8 @@ import { useContext } from "react";
 import { ShopContext } from "./Utility";
 
 import Cookies from "js-cookie";
+import { Menu } from "@mui/icons-material";
+import SidebarMenu from "./SidebarMenu";
 
 function Layout(props) {
   const useStyles = makeStyles((theme) => ({
@@ -47,7 +49,7 @@ function Layout(props) {
   const [accPopOver, setaccPopOver] = useState(false);
   const accPopoverRef = useRef(null);
 
-  const { openSidebar, checkout } = useContext(ShopContext);
+  const { openSidebar, checkout, openMenuSidebar } = useContext(ShopContext);
 
   const theme = createTheme({
     palette: {
@@ -79,8 +81,34 @@ function Layout(props) {
         }}
       >
         <Container fixed>
-          <Box display="flex" alignItems="center">
-            <Stack spacing={3} direction="row">
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              py: { xs: 2, sm: 0 },
+            }}
+          >
+            <Box
+              sx={{
+                display: { xs: "block", md: "none" },
+              }}
+            >
+              <IconButton onClick={openMenuSidebar}>
+                <Menu
+                  sx={{
+                    color: "#000",
+                  }}
+                />
+              </IconButton>
+            </Box>
+            <Stack
+              spacing={3}
+              direction="row"
+              sx={{
+                alignItems: "center",
+                display: { xs: "none", md: "flex" },
+              }}
+            >
               <Box>
                 <Link href="/men" passHref>
                   <a>
@@ -260,7 +288,14 @@ function Layout(props) {
                 flexGrow: 1,
               }}
             ></Box>
-            <Box sx={{ width: "150px", height: "80px", position: "relative" }}>
+            <Box
+              sx={{
+                width: "150px",
+                height: "80px",
+                position: "relative",
+                display: { xs: "none", sm: "block" },
+              }}
+            >
               <Link href="/" passHref>
                 <a>
                   <Image
@@ -274,7 +309,7 @@ function Layout(props) {
             </Box>
             <Box
               sx={{
-                flexGrow: 1.35,
+                flexGrow: { xs: 0.75, md: 1.35 },
               }}
             ></Box>
             <Box display="flex">
@@ -307,6 +342,7 @@ function Layout(props) {
         <Divider />
       </AppBar>
       <Sidebar />
+      <SidebarMenu />
       <Container
         fixed
         sx={{
