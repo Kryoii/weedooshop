@@ -100,8 +100,6 @@ function Utility(props) {
           },
         ],
       }));
-
-      Cookies.set("cartLength", checkout_.lineItems.length);
     }
   };
 
@@ -212,8 +210,6 @@ function Utility(props) {
         }));
       });
     }
-
-    Cookies.set("cart", checkout_.id);
   };
   const removeItem = async (id, variantId) => {
     await client.checkout.removeLineItems(state.checkout.id, [id]).then((b) => {
@@ -258,7 +254,7 @@ function Utility(props) {
   };
 
   useEffect(() => {
-    console.log(Cookies.get("cart"));
+    console.log(Cookies.get("cartLength"));
     if (Cookies.get("cart")) {
       fetchCheckout(Cookies.get("cart"));
     } else {
@@ -268,6 +264,7 @@ function Utility(props) {
 
   useEffect(() => {
     Cookies.set("cart", state.checkout.id);
+
     setstate((prev) => ({
       ...prev,
       disabledButtons: [],

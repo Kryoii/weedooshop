@@ -100,6 +100,7 @@ function Layout(props) {
                   </a>
                 </Link>
                 <Popover
+                  disableRestoreFocus
                   id="men-over-popover"
                   open={menPopOver}
                   className={classes.popover}
@@ -159,6 +160,7 @@ function Layout(props) {
                   </a>
                 </Link>
                 <Popover
+                  disableRestoreFocus
                   id="women-over-popover"
                   open={womenPopOver}
                   className={classes.popover}
@@ -218,6 +220,7 @@ function Layout(props) {
                   </a>
                 </Link>
                 <Popover
+                  disableRestoreFocus
                   id="accessories-over-popover"
                   open={accPopOver}
                   className={classes.popover}
@@ -292,11 +295,7 @@ function Layout(props) {
                 }}
               >
                 <Badge
-                  badgeContent={
-                    checkout.lineItems
-                      ? checkout.lineItems.length
-                      : Cookies.get("cartLength")
-                  }
+                  badgeContent={checkout.lineItems?.length}
                   color="primary"
                 >
                   <ShoppingCart />
