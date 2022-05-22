@@ -39,7 +39,7 @@ function Sidebar() {
       onClose={closeSidebar}
       PaperProps={{
         sx: {
-          minWidth: 450,
+          minWidth: { xs: "100%", md: 450 },
         },
       }}
     >
@@ -136,9 +136,10 @@ function Sidebar() {
                           {a.title}
                         </Typography>
                         <IconButton
+                          disabled={disabledButtons[i]?.button}
                           disableRipple
                           sx={{ p: 0 }}
-                          onClick={() => removeItem(a.id, a.variant.id)}
+                          onClick={() => removeItem(a.id, a.variant.id, i)}
                         >
                           <Close />
                         </IconButton>

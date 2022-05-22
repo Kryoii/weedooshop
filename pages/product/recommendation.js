@@ -6,8 +6,25 @@ import { Navigation } from "swiper";
 import FeaturedCard from "../../Components/FeaturedCard";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import Client from "shopify-buy";
+import { useState } from "react";
+import { useEffect } from "react";
 
 function Recommendation(props) {
+  const [products, setproducts] = useState([]);
+  const client = Client.buildClient({
+    domain: "nexttestapp.myshopify.com",
+    storefrontAccessToken: "f13d038748e2df2e871efc59da57ffb3",
+  });
+
+  useEffect(async () => {
+    await client.product
+      .fetchRecommendations(`gid://shopify/Product/${props.id}`)
+      .then((a) => {
+        setproducts(a);
+      });
+  }, [props.id]);
+
   return (
     <Box position="relative">
       <Typography
@@ -33,7 +50,7 @@ function Recommendation(props) {
           nextEl: ".featured-next-arrow",
           prevEl: ".featured-prev-arrow",
         }}
-        centeredSlides
+        // centeredSlides
         loop
         modules={[Navigation]}
         breakpoints={{
@@ -42,8 +59,8 @@ function Recommendation(props) {
           },
         }}
       >
-        {props.products &&
-          props.products.map((a, i) => {
+        {products &&
+          products.map((a, i) => {
             return (
               <SwiperSlide key={i}>
                 <FeaturedCard

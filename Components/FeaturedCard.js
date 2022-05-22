@@ -14,7 +14,7 @@ function FeaturedCard({ img, objectFit, alt, title, link, colors }) {
             sx={{
               position: "relative",
               width: "100%",
-              height: 400,
+              height: { xs: 300, md: 400 },
               img: {
                 transition: "all 0.45s ease-out",
               },

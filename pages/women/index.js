@@ -1,8 +1,11 @@
 import React from "react";
 import Layout from "../../Components/Layout";
-import Header from "./Header";
-import WomenSection from "./WomenSection";
-import WomenShop from "./utils";
+import Header from "../../Components/Women/Header";
+import dynamic from "next/dynamic";
+const WomenSection = dynamic(() =>
+  import("../../Components/Women/WomenSection")
+);
+
 import Client from "shopify-buy";
 import { useState } from "react";
 function Index(props) {
@@ -48,18 +51,48 @@ function Index(props) {
         SetProducts(a);
       });
   };
+  const [toggles, setToggles] = React.useState({
+    shortSleeve: false,
+    longSleeve: false,
+    hats: false,
+  });
+  const SetSelect = (type) => {
+    switch (type) {
+      case "Short Sleeve":
+        setToggles((prev) => ({
+          ...prev,
+          shortSleeve: !prev.shortSleeve,
+        }));
+        break;
+      case "Long Sleeve":
+        setToggles((prev) => ({
+          ...prev,
+          longSleeve: !prev.longSleeve,
+        }));
+        break;
+      case "Hats":
+        setToggles((prev) => ({
+          ...prev,
+          hats: !prev.hats,
+        }));
+        break;
+    }
+  };
 
   return (
-    <WomenShop>
-      <Layout title="Womens">
-        <Header total={products.length} SortBy={SortBy} />
-        <WomenSection
-          products={products}
-          LoadMore={LoadMore}
-          currentCount={currentCount}
-        />
-      </Layout>
-    </WomenShop>
+    <Layout title="Womens">
+      <Header
+        total={products.length}
+        SortBy={SortBy}
+        toggles={toggles}
+        SetSelect={SetSelect}
+      />
+      <WomenSection
+        products={products}
+        LoadMore={LoadMore}
+        currentCount={currentCount}
+      />
+    </Layout>
   );
 }
 

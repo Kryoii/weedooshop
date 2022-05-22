@@ -59,6 +59,7 @@ function ProductComponent(props) {
     addItemToCart,
     fetchProductWithId,
     product,
+    checkout,
   } = useContext(ShopContext);
 
   const [slide, setslide] = useState([]);
@@ -184,11 +185,12 @@ function ProductComponent(props) {
           initialSlide={0}
         >
           {imageSlide &&
-            imageSlide.map((a) => {
+            imageSlide.map((a, i) => {
               return (
                 <SwiperSlide key={a.src}>
                   <Box position="relative" height="500px">
                     <Image
+                      priority={i === 0 ? true : false}
                       src={a.src}
                       layout="fill"
                       alt={a.altText}
@@ -201,7 +203,16 @@ function ProductComponent(props) {
         </Swiper>
       </Grid>
 
-      <Grid item xs={12} md={7} lg={6} pl={4} pt={2}>
+      <Grid
+        item
+        xs={12}
+        md={7}
+        lg={6}
+        sx={{
+          pl: { xs: 0, md: 4 },
+        }}
+        pt={2}
+      >
         <Stack
           direction="row"
           justifyContent="space-between"
@@ -226,7 +237,7 @@ function ProductComponent(props) {
                 fontWeight: "bold",
                 color: "#000",
                 lineHeight: 1.3,
-                maxWidth: 250,
+                maxWidth: { xs: 190, sm: 250 },
               }}
             >
               {title}
@@ -283,6 +294,7 @@ function ProductComponent(props) {
             onClick={() => {
               addItemToCart(productVariant.id, 1, product.id);
             }}
+            disabled={Object.keys(checkout).length !== 0 ? false : true}
           >
             <ShoppingCartOutlined
               sx={{
@@ -442,6 +454,7 @@ function ProductComponent(props) {
                 left: 0,
                 backgroundColor: "#000",
               },
+              display: { xs: "none", md: "block" },
             }}
           >
             Sizing Chart
@@ -499,6 +512,7 @@ function ProductComponent(props) {
           onClick={() => {
             addItemToCart(productVariant.id, 1, product.id);
           }}
+          disabled={Object.keys(checkout).length !== 0 ? false : true}
         >
           <ShoppingCartOutlined
             sx={{

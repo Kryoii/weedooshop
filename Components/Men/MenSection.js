@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { colorSwitch } from "../../Components/ColorSwitch";
+import { colorSwitch } from "../ColorSwitch";
 
 function MenSection({ products, LoadMore, currentCount }) {
   return (
@@ -46,9 +46,10 @@ function MenSection({ products, LoadMore, currentCount }) {
                       }}
                     >
                       <Image
+                        priority={i !== 4 ? true : false}
                         alt={a.name}
                         layout="fill"
-                        objectFit="cover"
+                        objectFit="contain"
                         src={a.images[0].src}
                       ></Image>
                     </Box>

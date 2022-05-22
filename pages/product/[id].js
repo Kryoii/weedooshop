@@ -1,7 +1,11 @@
 import React from "react";
+import dynamic from "next/dynamic";
 import Layout from "../../Components/Layout";
-import ProductComponent from "./Product";
-import Recommendation from "./recommendation";
+// import ProductComponent from "./Product";
+const Recommendation = dynamic(() => import("./recommendation"));
+const ProductComponent = dynamic(() => import("./Product"), {
+  loading: () => <div style={{ minHeight: 600 }}></div>,
+});
 import Client from "shopify-buy";
 function Product(props) {
   return (
@@ -18,7 +22,7 @@ function Product(props) {
         sizes={props.sizes}
         productID={props.productID}
       />
-      <Recommendation products={JSON.parse(props.recommendation)} />
+      <Recommendation id={props.productID} />
     </Layout>
   );
 }
@@ -33,10 +37,6 @@ export async function getServerSideProps(context) {
   });
 
   const product_item = await client.product.fetch(
-    `gid://shopify/Product/${id}`
-  );
-
-  const recommendation = await client.product.fetchRecommendations(
     `gid://shopify/Product/${id}`
   );
 
@@ -59,7 +59,6 @@ export async function getServerSideProps(context) {
       sizes: JSON.parse(JSON.stringify(product_item.options[0])),
       title: product_item.title,
       description: product_item.description,
-      recommendation: JSON.stringify(recommendation),
       productID: id,
     },
   };

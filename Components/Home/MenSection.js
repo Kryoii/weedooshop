@@ -7,10 +7,24 @@ import Typography from "@mui/material/Typography";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { useState } from "react";
 import { useEffect } from "react";
-
+import Client from "shopify-buy";
 function MenSection(props) {
-  const items = JSON.parse(props.items);
+  const [items, setitems] = useState([]);
+
+  useEffect(async () => {
+    const client = Client.buildClient({
+      domain: "nexttestapp.myshopify.com",
+      storefrontAccessToken: "b79f30d31076cf3e3c77255d8ba8801c",
+    });
+
+    const menSection = await client.product.fetchQuery({
+      query: "tag:'mens_tshirt'",
+      first: 8,
+    });
+    setitems(menSection);
+  }, []);
 
   const colorSwitch = (color) => {
     switch (color) {
@@ -51,7 +65,7 @@ function MenSection(props) {
             gap: "20px",
           }}
         >
-          {props.items &&
+          {items &&
             items.map((a, i) => {
               return (
                 <ImageListItem col={1} key={a.title}>
@@ -60,7 +74,7 @@ function MenSection(props) {
                       <Box
                         sx={{
                           position: "relative",
-                          height: 350,
+                          height: { xs: 200, md: 350 },
                           img: {
                             transition: "all 0.45s ease-out",
                           },
@@ -74,7 +88,7 @@ function MenSection(props) {
                         <Image
                           alt={a.name}
                           layout="fill"
-                          objectFit="cover"
+                          objectFit="contain"
                           src={a.images[0].src}
                         ></Image>
                       </Box>
@@ -145,5 +159,4 @@ function MenSection(props) {
     </Stack>
   );
 }
-
 export default MenSection;

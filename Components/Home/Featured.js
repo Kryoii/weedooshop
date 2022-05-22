@@ -10,7 +10,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
 import styles from "../../styles/featured/featured.module.css";
 import FeaturedCard from "../FeaturedCard";
+import useMediaQuery from "@mui/material/useMediaQuery";
 function Featured() {
+  const maxWidth455 = useMediaQuery("(max-width:455px)");
+
   function TabPanel(props) {
     const { children, value, index, ...other } = props;
 
@@ -84,6 +87,7 @@ function Featured() {
       </Typography>
       <Box mb={5}>
         <Tabs
+          variant={!maxWidth455 ? "standard" : "scrollable"}
           centered
           value={value}
           onChange={handleChange}

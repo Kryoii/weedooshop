@@ -19,7 +19,10 @@ function Utility(props) {
     checkout: {},
     sidebar: false,
     sidebarMenu: false,
-    disabledButtons: [],
+    searchBar: false,
+    disabledButtons: [].sort(function (a, b) {
+      return new Date(b.date) - new Date(a.date);
+    }),
   });
   const createCheckout = async () => {
     const checkout = await client.checkout.create();
@@ -27,20 +30,6 @@ function Utility(props) {
       ...prev,
       checkout: checkout,
     }));
-    checkout.lineItems?.forEach((a, inde) => {
-      setstate((prev) => ({
-        ...prev,
-        disabledButtons: [
-          ...prev.disabledButtons,
-          {
-            button: false,
-            id: a.variant.id,
-            value: a.quantity,
-            date: new Date(),
-          },
-        ],
-      }));
-    });
   };
 
   const fetchAllProducts = async () => {
@@ -66,6 +55,7 @@ function Utility(props) {
     );
 
     if (obj.length > 0) {
+      console.log();
       await client.checkout
         .updateLineItems(state.checkout.id, [
           {
@@ -75,6 +65,10 @@ function Utility(props) {
           },
         ])
         .then((b) => {
+          updateInput(
+            obj[0].quantity + 1,
+            state.disabledButtons.findIndex((item) => item.id === variantId)
+          );
           setstate((prev) => ({
             ...prev,
             checkout: b,
@@ -99,7 +93,9 @@ function Utility(props) {
             value: quantity,
             date: new Date(),
           },
-        ],
+        ].sort(function (a, b) {
+          return new Date(b.date) - new Date(a.date);
+        }),
       }));
     }
   };
@@ -121,13 +117,9 @@ function Utility(props) {
           }));
           setstate((prev) => ({
             ...prev,
-            disabledButtons: prev.disabledButtons
-              .filter((a) => {
-                return a.id !== variantId;
-              })
-              .sort(function (a, b) {
-                return new Date(b.date) - new Date(a.date);
-              }),
+            disabledButtons: prev.disabledButtons.filter((a) => {
+              return a.id !== variantId;
+            }),
           }));
         });
     } else {
@@ -193,26 +185,25 @@ function Utility(props) {
       checkout: checkout_,
     }));
 
-    if (state.disabledButtons.length === 0) {
-      checkout_.lineItems?.forEach((a, inde) => {
-        setstate((prev) => ({
-          ...prev,
-          disabledButtons: [
-            ...prev.disabledButtons,
-            {
-              button: false,
-              id: a.variant.id,
-              value: a.quantity,
-              date: new Date(),
-            },
-          ].sort(function (a, b) {
-            return new Date(b.date) - new Date(a.date);
-          }),
-        }));
-      });
-    }
+    setstate((prev) => ({
+      ...prev,
+      disabledButtons:
+        JSON.parse(localStorage.getItem("buttons")) !== null
+          ? JSON.parse(localStorage.getItem("buttons")).sort(function (a, b) {
+              return new Date(b.date) - new Date(a.date);
+            })
+          : [],
+    }));
   };
-  const removeItem = async (id, variantId) => {
+  const removeItem = async (id, variantId, index) => {
+    setstate((oldState) => {
+      const newDisabledButtons = [...oldState.disabledButtons];
+      newDisabledButtons[index].button = true;
+      return {
+        ...oldState,
+        disabledButtons: newDisabledButtons,
+      };
+    });
     await client.checkout.removeLineItems(state.checkout.id, [id]).then((b) => {
       setstate((prev) => ({
         ...prev,
@@ -268,9 +259,14 @@ function Utility(props) {
       sidebarMenu: false,
     }));
   };
+  const openSearch = () => {
+    setstate((prev) => ({
+      ...prev,
+      searchBar: !state.searchBar,
+    }));
+  };
 
   useEffect(() => {
-    console.log(Cookies.get("cartLength"));
     if (Cookies.get("cart")) {
       fetchCheckout(Cookies.get("cart"));
     } else {
@@ -279,31 +275,21 @@ function Utility(props) {
   }, []);
 
   useEffect(() => {
-    Cookies.set("cart", state.checkout.id);
-
-    setstate((prev) => ({
-      ...prev,
-      disabledButtons: [],
-    }));
-    state.checkout.lineItems?.forEach((a, inde) => {
-      setstate((prev) => ({
-        ...prev,
-        disabledButtons: [
-          ...prev.disabledButtons,
-          {
-            button: false,
-            id: a.variant.id,
-            value: a.quantity,
-            date: new Date(),
-          },
-        ],
-      }));
-    });
+    if (Object.keys(state.checkout).length !== 0) {
+      Cookies.set("cart", state.checkout.id);
+    }
+    if (state.disabledButtons.length !== 0) {
+      localStorage.setItem("buttons", JSON.stringify(state.disabledButtons));
+    }
   }, [state.checkout]);
 
-  // useEffect(() => {
-  //   console.log(state.disabledButtons);
-  // }, [state.disabledButtons]);
+  useEffect(() => {
+    if (state.disabledButtons.length !== 0) {
+      localStorage.setItem("buttons", JSON.stringify(state.disabledButtons));
+    }
+
+    console.log(JSON.parse(localStorage.getItem("buttons")));
+  }, [state.disabledButtons]);
 
   return (
     <ShopContext.Provider
@@ -321,6 +307,7 @@ function Utility(props) {
         closeSidebar: closeSidebar,
         openMenuSidebar: openMenuSidebar,
         closeMenuSidebar: closeMenuSidebar,
+        openSearch: openSearch,
       }}
     >
       {props.children}

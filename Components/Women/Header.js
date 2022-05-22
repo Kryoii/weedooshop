@@ -9,11 +9,9 @@ import MenuItem from "@mui/material/MenuItem";
 import Stack from "@mui/material/Stack";
 import ToggleButton from "@mui/material/ToggleButton";
 import React from "react";
-import { useContext } from "react";
-import { MenShopContext } from "./utils";
 import { useState } from "react";
 
-function Header({ total, SortBy }) {
+function Header({ total, SortBy, SetSelect, toggles }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [filt, setfilt] = useState("Best Selling");
@@ -24,9 +22,6 @@ function Header({ total, SortBy }) {
     setfilt(ev);
     setAnchorEl(null);
   };
-
-  const { shortSleeve, longSleeve, hats, setSelect } =
-    useContext(MenShopContext);
 
   return (
     <Box>
@@ -63,10 +58,10 @@ function Header({ total, SortBy }) {
             lineHeight: 1.3,
           }}
         >
-          Men&rsquo;s
+          Women&rsquo;s
         </Typography>
         <Box>
-          <Typography variant="body1">Men&apos;s Apparel</Typography>
+          <Typography variant="body1">Women&apos;s Apparel</Typography>
           <Typography variant="body1">{total} ⎯ Results</Typography>
         </Box>
       </Box>
@@ -82,107 +77,140 @@ function Header({ total, SortBy }) {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
+          flexDirection: { xs: "column", sm: "row" },
         }}
       >
-        <Stack py={2} spacing={3} direction="row">
-          <Box display="flex" alignItems="center">
-            <Typography
-              variant="body1"
-              component="label"
-              htmlFor="short-sleeves-tees"
-              sx={{
-                mr: 1,
-                cursor: "pointer",
-              }}
-            >
-              Short Sleeves Tees
-            </Typography>
-            <ToggleButton
-              sx={{
-                p: "4px",
-                borderRadius: "7px",
-                backgroundColor: "transparent",
-              }}
-              id="short-sleeves-tees"
-              value="check_short"
-              selected={shortSleeve}
-              onChange={() => setSelect("Short Sleeve")}
-            >
-              <Check
+        {toggles && (
+          <>
+            <Stack py={2} direction={{ xs: "column-reverse", md: "row" }}>
+              <Stack
+                direction="row"
+                spacing={{ sm: 0, md: 3 }}
+                maxWidth={{
+                  xs: "max-content",
+                  sm: "400px",
+                  md: "max-content",
+                }}
                 sx={{
-                  width: "0.7em",
-                  height: "0.7em",
-                  fontSize: "14px",
+                  flexWrap: "wrap",
+                }}
+              >
+                <Box display="flex" alignItems="center" mr={2}>
+                  <Typography
+                    variant="body1"
+                    component="label"
+                    htmlFor="short-sleeves-tees"
+                    sx={{
+                      mr: 1,
+                      cursor: "pointer",
+                    }}
+                  >
+                    Short Sleeves Tees
+                  </Typography>
+                  <ToggleButton
+                    sx={{
+                      p: "4px",
+                      borderRadius: "7px",
+                      backgroundColor: "transparent",
+                    }}
+                    id="short-sleeves-tees"
+                    value="check_short"
+                    selected={toggles.shortSleeve}
+                    onChange={() => SetSelect("Short Sleeve")}
+                  >
+                    <Check
+                      sx={{
+                        width: "0.7em",
+                        height: "0.7em",
+                        fontSize: "14px",
+                      }}
+                    />
+                  </ToggleButton>
+                </Box>
+                <Box display="flex" alignItems="center" mr={2}>
+                  <Typography
+                    variant="body1"
+                    component="label"
+                    htmlFor="long-sleeves-tees"
+                    sx={{
+                      mr: 1,
+                      cursor: "pointer",
+                    }}
+                  >
+                    Long Sleeves Tees
+                  </Typography>
+                  <ToggleButton
+                    sx={{
+                      p: "4px",
+                      borderRadius: "7px",
+                      backgroundColor: "transparent",
+                    }}
+                    id="long-sleeves-tees"
+                    value="check_long"
+                    selected={toggles.longSleeve}
+                    onChange={() => SetSelect("Long Sleeve")}
+                  >
+                    <Check
+                      sx={{
+                        width: "0.7em",
+                        height: "0.7em",
+                        fontSize: "14px",
+                      }}
+                    />
+                  </ToggleButton>
+                </Box>
+                <Box display="flex" alignItems="center">
+                  <Typography
+                    variant="body1"
+                    component="label"
+                    htmlFor="hats"
+                    sx={{
+                      mr: 1,
+                      cursor: "pointer",
+                    }}
+                  >
+                    Hats
+                  </Typography>
+                  <ToggleButton
+                    sx={{
+                      p: "4px",
+                      borderRadius: "7px",
+                      backgroundColor: "transparent",
+                    }}
+                    id="hats"
+                    value="check_hats"
+                    selected={toggles.hats}
+                    onChange={() => SetSelect("Hats")}
+                  >
+                    <Check
+                      sx={{
+                        width: "0.7em",
+                        height: "0.7em",
+                        fontSize: "14px",
+                      }}
+                    />
+                  </ToggleButton>
+                </Box>
+              </Stack>
+              <Divider
+                sx={{
+                  position: "absolute",
+                  left: "0",
+                  zIndex: "10",
+                  width: "100%",
+                  mb: "-16px",
+                  display: { xs: "block", sm: "none" },
                 }}
               />
-            </ToggleButton>
-          </Box>
-          <Box display="flex" alignItems="center">
-            <Typography
-              variant="body1"
-              component="label"
-              htmlFor="long-sleeves-tees"
-              sx={{
-                mr: 1,
-                cursor: "pointer",
-              }}
-            >
-              Long Sleeves Tees
-            </Typography>
-            <ToggleButton
-              sx={{
-                p: "4px",
-                borderRadius: "7px",
-                backgroundColor: "transparent",
-              }}
-              id="long-sleeves-tees"
-              value="check_long"
-              selected={longSleeve}
-              onChange={() => setSelect("Long Sleeve")}
-            >
-              <Check
-                sx={{
-                  width: "0.7em",
-                  height: "0.7em",
-                  fontSize: "14px",
-                }}
-              />
-            </ToggleButton>
-          </Box>
-          <Box display="flex" alignItems="center">
-            <Typography
-              variant="body1"
-              component="label"
-              htmlFor="hats"
-              sx={{
-                mr: 1,
-                cursor: "pointer",
-              }}
-            >
-              Hats
-            </Typography>
-            <ToggleButton
-              sx={{
-                p: "4px",
-                borderRadius: "7px",
-                backgroundColor: "transparent",
-              }}
-              id="hats"
-              value="check_hats"
-              selected={hats}
-              onChange={() => setSelect("Hats")}
-            >
-              <Check
-                sx={{
-                  width: "0.7em",
-                  height: "0.7em",
-                  fontSize: "14px",
-                }}
-              />
-            </ToggleButton>
-          </Box>
-        </Stack>
-        <div>
+            </Stack>
+          </>
+        )}
+        <Box
+          sx={{
+            ml: "auto",
+            my: 2,
+          }}
+        >
           <Box
             sx={{
               display: "flex",
@@ -291,13 +319,14 @@ function Header({ total, SortBy }) {
               Oldest
             </MenuItem>
           </Menu>
-        </div>
+        </Box>
       </Box>
       <Divider
         sx={{
           position: "absolute",
           left: 0,
           width: "100%",
+          display: { xs: "none", sm: "block" },
         }}
       />
     </Box>
