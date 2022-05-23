@@ -128,7 +128,7 @@ function Layout(props) {
               }}
             >
               <Box>
-                <Link href="/men" passHref>
+                <Link href="/men" passHref prefetch={false}>
                   <a>
                     <Typography
                       ref={menPopoverRef}
@@ -187,7 +187,7 @@ function Layout(props) {
                 </Popover>
               </Box>
               <Box>
-                <Link href="/women" passHref>
+                <Link href="/women" passHref prefetch={false}>
                   <a>
                     <Typography
                       ref={womenPopoverRef}
@@ -246,7 +246,7 @@ function Layout(props) {
                 </Popover>
               </Box>
               <Box>
-                <Link href="/accessories" passHref>
+                <Link href="/accessories" passHref prefetch={false}>
                   <a>
                     <Typography
                       ref={accPopoverRef}

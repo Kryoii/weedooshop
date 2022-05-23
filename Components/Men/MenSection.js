@@ -29,7 +29,11 @@ function MenSection({ products, LoadMore, currentCount }) {
           products.map((a, i) => {
             return (
               <ImageListItem col={1} key={a.title}>
-                <Link href={`/product/${a.id.split("/")[4]}`} passHref>
+                <Link
+                  href={`/product/${a.id.split("/")[4]}`}
+                  passHref
+                  prefetch={false}
+                >
                   <a>
                     <Box
                       sx={{

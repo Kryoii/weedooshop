@@ -113,7 +113,6 @@ function Intro() {
                     borderRadius: "0px",
                     "&:hover": {
                       borderWidth: "5px",
-
                       borderColor: "#ebebeb",
                       color: "#f3e5f5",
                     },
