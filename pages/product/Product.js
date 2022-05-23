@@ -294,7 +294,11 @@ function ProductComponent(props) {
             onClick={() => {
               addItemToCart(productVariant.id, 1, product.id);
             }}
-            disabled={Object.keys(checkout).length !== 0 ? false : true}
+            disabled={
+              Object.keys(checkout).length !== 0 && productVariant !== undefined
+                ? false
+                : true
+            }
           >
             <ShoppingCartOutlined
               sx={{
@@ -512,7 +516,11 @@ function ProductComponent(props) {
           onClick={() => {
             addItemToCart(productVariant.id, 1, product.id);
           }}
-          disabled={Object.keys(checkout).length !== 0 ? false : true}
+          disabled={
+            Object.keys(checkout).length !== 0 && productVariant !== undefined
+              ? false
+              : true
+          }
         >
           <ShoppingCartOutlined
             sx={{
