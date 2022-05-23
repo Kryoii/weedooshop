@@ -1,4 +1,3 @@
-import * as React from "react";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -11,6 +10,7 @@ import { Navigation } from "swiper";
 import styles from "../../styles/featured/featured.module.css";
 import FeaturedCard from "../FeaturedCard";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { useState } from "react";
 function Featured() {
   const maxWidth455 = useMediaQuery("(max-width:455px)");
 
@@ -42,7 +42,7 @@ function Featured() {
       "aria-controls": `simple-tabpanel-${index}`,
     };
   }
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
