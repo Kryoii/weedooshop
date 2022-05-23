@@ -19,7 +19,9 @@ function Header({ total, SortBy, SetSelect, toggles }) {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = (ev) => {
-    setfilt(ev);
+    if (ev !== null) {
+      setfilt(ev);
+    }
     setAnchorEl(null);
   };
 
@@ -217,8 +219,8 @@ function Header({ total, SortBy, SetSelect, toggles }) {
               alignItems: "center",
               cursor: "pointer",
             }}
-            id="filters"
-            aria-controls={open ? "filters" : undefined}
+            id="basic-button"
+            aria-controls={open ? "basic-menu" : undefined}
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
             onClick={handleClick}
@@ -232,12 +234,14 @@ function Header({ total, SortBy, SetSelect, toggles }) {
             />
           </Box>
           <Menu
-            id="filters"
+            id="basic-menu"
             anchorEl={anchorEl}
             open={open}
-            onClose={handleClose}
+            onClose={() => {
+              handleClose(null);
+            }}
             MenuListProps={{
-              "aria-labelledby": "filters",
+              "aria-labelledby": "basic-button",
             }}
           >
             <MenuItem

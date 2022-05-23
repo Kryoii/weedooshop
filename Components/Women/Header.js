@@ -19,7 +19,9 @@ function Header({ total, SortBy, SetSelect, toggles }) {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = (ev) => {
-    setfilt(ev);
+    if (ev !== null) {
+      setfilt(ev);
+    }
     setAnchorEl(null);
   };
 
@@ -235,7 +237,7 @@ function Header({ total, SortBy, SetSelect, toggles }) {
             id="filters"
             anchorEl={anchorEl}
             open={open}
-            onClose={handleClose}
+            onClose={() => handleClose(null)}
             MenuListProps={{
               "aria-labelledby": "filters",
             }}
