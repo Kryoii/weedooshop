@@ -2,7 +2,10 @@ import React from "react";
 import Layout from "../../Components/Layout";
 import Header from "../../Components/Men/Header";
 import dynamic from "next/dynamic";
-const MenSection = dynamic(() => import("../../Components/Men/MenSection"));
+import CircularProgress from "@mui/material/CircularProgress";
+const MenSection = dynamic(() => import("../../Components/Men/MenSection"), {
+  loading: () => <CircularProgress />,
+});
 
 import Client from "shopify-buy";
 import { useState } from "react";

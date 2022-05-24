@@ -67,6 +67,9 @@ function Intro() {
       >
         <div className="intro-pagination"></div>
         <Swiper
+          style={{
+            height: "100%",
+          }}
           pagination={{
             bulletClass: "intro-pagination-bullet",
             bulletActiveClass: "intro-pagination-bullet-active",
@@ -77,7 +80,7 @@ function Intro() {
           <SwiperSlide>
             <GridBox
               sx={{
-                height: 600,
+                height: "100%",
                 display: "flex!important",
                 alignItems: "center",
               }}
@@ -132,7 +135,8 @@ function Intro() {
           <SwiperSlide>
             <GridBox
               sx={{
-                height: 600,
+                height: "100%",
+
                 display: "flex!important",
                 alignItems: "center",
               }}

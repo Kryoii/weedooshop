@@ -2,8 +2,11 @@ import React from "react";
 import Layout from "../../Components/Layout";
 import Header from "../../Components/Women/Header";
 import dynamic from "next/dynamic";
-const WomenSection = dynamic(() =>
-  import("../../Components/Women/WomenSection")
+import CircularProgress from "@mui/material/CircularProgress";
+
+const WomenSection = dynamic(
+  () => import("../../Components/Women/WomenSection"),
+  { loading: () => <CircularProgress /> }
 );
 
 import Client from "shopify-buy";

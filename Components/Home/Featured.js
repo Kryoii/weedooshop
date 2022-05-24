@@ -10,7 +10,8 @@ import { Navigation } from "swiper";
 import styles from "../../styles/featured/featured.module.css";
 import FeaturedCard from "../FeaturedCard";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Client from "shopify-buy";
 function Featured() {
   const maxWidth455 = useMediaQuery("(max-width:455px)");
 
@@ -48,28 +49,27 @@ function Featured() {
     setValue(newValue);
   };
 
-  const featuredSlides = [
-    {
-      src: "/images/shirt-01.jpg",
-    },
-    {
-      src: "/images/shirt-02.jpg",
-    },
-    {
-      src: "/images/shirt-03.jpg",
-    },
-    {
-      src: "/images/shirt-04.jpg",
-    },
-
-    {
-      src: "/images/shirt-05.jpg",
-    },
-
-    {
-      src: "/images/shirt-06.jpg",
-    },
-  ];
+  const [items, setitems] = useState([]);
+  const [bestsellers, setbestsellers] = useState([]);
+  const client = Client.buildClient({
+    domain: "nexttestapp.myshopify.com",
+    storefrontAccessToken: "b79f30d31076cf3e3c77255d8ba8801c",
+  });
+  useEffect(async () => {
+    const newArrivals = await client.product.fetchQuery({
+      first: 5,
+    });
+    setitems(newArrivals);
+  }, []);
+  useEffect(async () => {
+    if (value === 1) {
+      const items = await client.product.fetchQuery({
+        first: 5,
+        sortKey: "BEST_SELLING",
+      });
+      setbestsellers(items);
+    }
+  }, [value]);
 
   return (
     <Box sx={{ width: "100%", mb: 12 }}>
@@ -127,15 +127,17 @@ function Featured() {
             loop
             modules={[Navigation]}
           >
-            {featuredSlides.map((a, i) => {
+            {items.map((a, i) => {
               return (
-                <SwiperSlide className={styles.swiper_slide} key={i}>
+                <SwiperSlide className={styles.swiper_slide} key={a.title}>
                   <FeaturedCard
-                    img={a.src}
-                    objectFit="cover"
-                    alt={a.src}
-                    title="test"
-                    link=""
+                    img={a.images[0].src}
+                    objectFit="contain"
+                    alt={a.images[0].src}
+                    title={a.title}
+                    link={`/product/${a.id.split("/")[4]}`}
+                    price={a.variants[0].price}
+                    type="New Arrivals"
                   />
                 </SwiperSlide>
               );
@@ -143,7 +145,40 @@ function Featured() {
           </Swiper>
         </Box>
       </TabPanel>
-      <TabPanel value={value} index={1}></TabPanel>
+      <TabPanel value={value} index={1}>
+        <Swiper
+          slidesPerView={2}
+          spaceBetween={50}
+          navigation={{
+            nextEl: ".featured-next-arrow",
+            prevEl: ".featured-prev-arrow",
+          }}
+          // centeredSlides
+          breakpoints={{
+            900: {
+              slidesPerView: 3,
+            },
+          }}
+          loop
+          modules={[Navigation]}
+        >
+          {bestsellers.map((a, i) => {
+            return (
+              <SwiperSlide className={styles.swiper_slide} key={a.title}>
+                <FeaturedCard
+                  img={a.images[0]?.src}
+                  objectFit="contain"
+                  alt={a.images[0]?.src}
+                  title={a.title}
+                  link=""
+                  price={a.variants[0].price}
+                  type="Best Sellers"
+                />
+              </SwiperSlide>
+            );
+          })}
+        </Swiper>
+      </TabPanel>
       <TabPanel value={value} index={2}></TabPanel>
     </Box>
   );

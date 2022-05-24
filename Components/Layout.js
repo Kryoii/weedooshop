@@ -7,8 +7,6 @@ import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
 import Badge from "@mui/material/Badge";
 import Input from "@mui/material/Input";
-import Popover from "@mui/material/Popover";
-import React from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import Search from "@mui/icons-material/Search";
@@ -21,8 +19,9 @@ import { useRef, useContext, useState } from "react";
 import { ShopContext } from "./Utility";
 
 import dynamic from "next/dynamic";
-import { createBreakpoints } from "@mui/system";
 import Router from "next/router";
+import { DropdownContext } from "./DropdownUtility";
+const Dropdown = dynamic(() => import("./Dropdown"));
 const SidebarMenu = dynamic(() => import("./SidebarMenu"));
 const Sidebar = dynamic(() => import("./Sidebar"));
 const Footer = dynamic(() => import("./Footer"));
@@ -39,8 +38,8 @@ function Layout(props) {
 
   const { openSidebar, checkout, openMenuSidebar, searchBar, openSearch } =
     useContext(ShopContext);
-
-  const breakpoints = createBreakpoints({});
+  const { menPopover, womenPopover, accPopover, OpenPopover } =
+    useContext(DropdownContext);
 
   const theme = createTheme({
     palette: {
@@ -128,174 +127,103 @@ function Layout(props) {
               }}
             >
               <Box>
-                <Link href="/men" passHref prefetch={false}>
+                <Link href="/men" passHref>
                   <a>
                     <Typography
                       ref={menPopoverRef}
                       aria-owns="men-over-popover"
                       aria-haspopup="true"
                       onMouseEnter={() => {
-                        setmenPopOver(true);
+                        OpenPopover("Men", true);
                       }}
                       onMouseLeave={() => {
-                        setmenPopOver(false);
+                        OpenPopover("Men", false);
                       }}
                     >
                       Men&apos;s
                     </Typography>
                   </a>
                 </Link>
-                <Popover
-                  disableRestoreFocus
+                <Dropdown
+                  open={menPopover}
+                  popOverRef={menPopoverRef}
                   id="men-over-popover"
-                  open={menPopOver}
-                  sx={{
-                    pointerEvents: "none",
-                  }}
-                  anchorEl={menPopoverRef.current}
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "left",
-                  }}
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "left",
-                  }}
-                  PaperProps={{
-                    onMouseEnter: () => {
-                      setmenPopOver(true);
+                  bool="Men"
+                  items={[
+                    {
+                      title: "Short Sleeve",
                     },
-                    onMouseLeave: () => {
-                      setmenPopOver(false);
+                    {
+                      title: "Long Sleeve",
                     },
-                  }}
-                >
-                  <Box px={3} py={2}>
-                    <Link href="/" passHref>
-                      <a>
-                        <Typography mb={1} variant="body1">
-                          Short Sleeve
-                        </Typography>
-                      </a>
-                    </Link>
-                    <Link href="/" passHref>
-                      <a>
-                        <Typography variant="body1">Long Sleeve</Typography>
-                      </a>
-                    </Link>
-                  </Box>
-                </Popover>
+                  ]}
+                />
               </Box>
               <Box>
-                <Link href="/women" passHref prefetch={false}>
+                <Link href="/women" passHref>
                   <a>
                     <Typography
                       ref={womenPopoverRef}
                       aria-owns="women-over-popover"
                       aria-haspopup="true"
                       onMouseEnter={() => {
-                        setwomenPopOver(true);
+                        OpenPopover("Women", true);
                       }}
                       onMouseLeave={() => {
-                        setwomenPopOver(false);
+                        OpenPopover("Women", false);
                       }}
                     >
                       Women&apos;s
                     </Typography>
                   </a>
                 </Link>
-                <Popover
-                  disableRestoreFocus
+                <Dropdown
+                  open={womenPopover}
+                  popOverRef={womenPopoverRef}
                   id="women-over-popover"
-                  open={womenPopOver}
-                  sx={{
-                    pointerEvents: "none",
-                  }}
-                  anchorEl={womenPopoverRef.current}
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "left",
-                  }}
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "left",
-                  }}
-                  PaperProps={{
-                    onMouseEnter: () => {
-                      setwomenPopOver(true);
+                  bool="Women"
+                  items={[
+                    {
+                      title: "Short Sleeve",
                     },
-                    onMouseLeave: () => {
-                      setwomenPopOver(false);
+                    {
+                      title: "Long Sleeve",
                     },
-                  }}
-                >
-                  <Box px={3} py={2}>
-                    <Link href="/" passHref>
-                      <a>
-                        <Typography mb={1} variant="body1">
-                          Short Sleeve
-                        </Typography>
-                      </a>
-                    </Link>
-                    <Link href="/" passHref>
-                      <a>
-                        <Typography variant="body1">Long Sleeve</Typography>
-                      </a>
-                    </Link>
-                  </Box>
-                </Popover>
+                  ]}
+                />
               </Box>
               <Box>
-                <Link href="/accessories" passHref prefetch={false}>
+                <Link href="/accessories" passHref>
                   <a>
                     <Typography
                       ref={accPopoverRef}
                       aria-owns="accessories-over-popover"
                       aria-haspopup="true"
                       onMouseEnter={() => {
-                        setaccPopOver(true);
+                        OpenPopover("Acc", true);
                       }}
                       onMouseLeave={() => {
-                        setaccPopOver(false);
+                        OpenPopover("Acc", false);
                       }}
                     >
                       Accessories
                     </Typography>
                   </a>
                 </Link>
-                <Popover
-                  disableRestoreFocus
+                <Dropdown
+                  open={accPopover}
+                  popOverRef={accPopoverRef}
                   id="accessories-over-popover"
-                  open={accPopOver}
-                  sx={{
-                    pointerEvents: "none",
-                  }}
-                  anchorEl={accPopoverRef.current}
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "left",
-                  }}
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "left",
-                  }}
-                  PaperProps={{
-                    onMouseEnter: () => {
-                      setaccPopOver(true);
+                  bool="Acc"
+                  items={[
+                    {
+                      title: "Short Sleeve",
                     },
-                    onMouseLeave: () => {
-                      setaccPopOver(false);
+                    {
+                      title: "Long Sleeve",
                     },
-                  }}
-                >
-                  <Box px={3} py={2}>
-                    <Link href="/" passHref>
-                      <a>
-                        <Typography variant="body1">Hats</Typography>
-                      </a>
-                    </Link>
-                  </Box>
-                </Popover>
+                  ]}
+                />
               </Box>
             </Stack>
             <Box
@@ -391,6 +319,7 @@ function Layout(props) {
       </AppBar>
       <Sidebar />
       <SidebarMenu />
+
       <Container
         fixed
         sx={{

@@ -1,10 +1,13 @@
+import DropdownUtility from "../Components/DropdownUtility";
 import Utility from "../Components/Utility";
 import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
   return (
     <Utility>
-      <Component {...pageProps} />
+      <DropdownUtility>
+        <Component {...pageProps} />
+      </DropdownUtility>
     </Utility>
   );
 }

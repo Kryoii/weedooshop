@@ -5,7 +5,16 @@ import Image from "next/image";
 import Stack from "@mui/material/Stack";
 import Link from "next/link";
 import { colorSwitch } from "./ColorSwitch";
-function FeaturedCard({ img, objectFit, alt, title, link, colors }) {
+function FeaturedCard({
+  img,
+  objectFit,
+  alt,
+  title,
+  link,
+  colors,
+  price,
+  type,
+}) {
   return (
     <Box>
       <Link href={link} passHref>
@@ -36,7 +45,7 @@ function FeaturedCard({ img, objectFit, alt, title, link, colors }) {
       </Link>
       <Stack mt={2}>
         <Typography variant="body1" lineHeight={1} color="#5f5f5f">
-          Best Sellers
+          {type}
         </Typography>
         <Typography
           variant="h6"
@@ -69,7 +78,7 @@ function FeaturedCard({ img, objectFit, alt, title, link, colors }) {
           fontWeight="medium"
           lineHeight={1.3}
         >
-          $ 39.99
+          from ${price}
         </Typography>
       </Stack>
     </Box>
