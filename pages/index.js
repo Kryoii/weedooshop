@@ -19,7 +19,7 @@ const JoinNow = dynamic(() => import("../Components/Home/JoinNow"), {
 });
 export default function Home() {
   return (
-    <Layout title="Home">
+    <Layout title="Home" description="Weedoo Shop">
       <Intro />
       <Featured />
       <Features />

@@ -21,6 +21,7 @@ function Footer() {
     <footer>
       <Divider />
       <Box
+        component="nav"
         mb={9}
         mt={5}
         sx={{
@@ -93,6 +94,7 @@ function Footer() {
                 }}
               >
                 <IconButton
+                  aria-label="Youtube Link"
                   sx={{
                     color: "#fff",
                     backgroundColor: "#000",
@@ -106,6 +108,7 @@ function Footer() {
                   />
                 </IconButton>
                 <IconButton
+                  aria-label="Instagram Link"
                   sx={{
                     color: "#fff",
                     backgroundColor: "#000",
@@ -119,6 +122,7 @@ function Footer() {
                   />
                 </IconButton>
                 <IconButton
+                  aria-label="Facebook Link"
                   sx={{
                     color: "#fff",
                     backgroundColor: "#000",
@@ -132,6 +136,7 @@ function Footer() {
                   />
                 </IconButton>
                 <IconButton
+                  aria-label="Twitter Link"
                   sx={{
                     color: "#fff",
                     backgroundColor: "#000",
@@ -163,6 +168,7 @@ function Footer() {
                 <Box mb={3} sx={{ height: "60px" }}>
                   <Typography
                     variant="h6"
+                    component="h1"
                     sx={{
                       letterSpacing: "2px",
                       fontWeight: "bold",
@@ -236,6 +242,7 @@ function Footer() {
               >
                 <Box mb={3} sx={{ height: "60px" }}>
                   <Typography
+                    component="h1"
                     variant="h6"
                     sx={{
                       letterSpacing: "2px",

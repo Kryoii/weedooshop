@@ -7,6 +7,7 @@ import React from "react";
 function Features() {
   return (
     <Box
+      component="section"
       sx={{
         width: "100%",
         overflow: "auto",
@@ -51,6 +52,7 @@ function Features() {
             <Box>
               <Typography
                 variant="h5"
+                component="p"
                 sx={{
                   fontFamily: "Times New Roman, sans-serif",
                   fontWeight: "bold",
@@ -93,6 +95,7 @@ function Features() {
             </Box>
             <Box>
               <Typography
+                component="p"
                 variant="h5"
                 sx={{
                   fontFamily: "Times New Roman, sans-serif",
@@ -136,6 +139,7 @@ function Features() {
             </Box>
             <Box>
               <Typography
+                component="p"
                 variant="h5"
                 sx={{
                   fontFamily: "Times New Roman, sans-serif",

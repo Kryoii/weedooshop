@@ -17,6 +17,7 @@ import { useContext } from "react";
 import { ShopContext } from "./Utility";
 import { useEffect } from "react";
 import { colorSwitch } from "./ColorSwitch";
+import Link from "next/link";
 
 function Sidebar() {
   const {
@@ -308,27 +309,31 @@ function Sidebar() {
               $ {checkout.totalPrice}
             </Typography>
           </Stack>
-          <Button
-            variant="outlined"
-            sx={{
-              position: "relative",
-              zIndex: 1,
-              color: "#000",
-              borderWidth: "5px",
-              borderColor: "#000",
-              borderRadius: "0px",
-              mx: "auto",
-              px: 4,
-              "&:hover": {
-                borderWidth: "5px",
-                borderColor: "#4d4d4d",
-              },
-              width: "100%",
-              minHeight: 50,
-            }}
-          >
-            CHECK OUT
-          </Button>
+          <Link passHref href={checkout.webUrl}>
+            <a target="_blank">
+              <Button
+                variant="outlined"
+                sx={{
+                  position: "relative",
+                  zIndex: 1,
+                  color: "#000",
+                  borderWidth: "5px",
+                  borderColor: "#000",
+                  borderRadius: "0px",
+                  mx: "auto",
+                  px: 4,
+                  "&:hover": {
+                    borderWidth: "5px",
+                    borderColor: "#4d4d4d",
+                  },
+                  width: "100%",
+                  minHeight: 50,
+                }}
+              >
+                CHECK OUT
+              </Button>
+            </a>
+          </Link>
           <Typography
             variant="body1"
             my={3}

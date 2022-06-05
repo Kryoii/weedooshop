@@ -59,6 +59,7 @@ function JoinNow() {
 
   return (
     <Grid
+      component="section"
       container
       spacing={1}
       sx={{
@@ -76,7 +77,9 @@ function JoinNow() {
                 alt="Shirt"
                 objectFit="cover"
               ></Image>
-              <Typography variant="h5">Men’s</Typography>
+              <Typography variant="h5" component="p">
+                Men’s
+              </Typography>
             </GridBox>
           </a>
         </Link>
@@ -91,7 +94,9 @@ function JoinNow() {
                 alt="Shirt"
                 objectFit="cover"
               ></Image>
-              <Typography variant="h5">Women’s</Typography>
+              <Typography variant="h5" component="p">
+                Women’s
+              </Typography>
             </GridBox>
           </a>
         </Link>
@@ -106,7 +111,9 @@ function JoinNow() {
                 alt="Shirt"
                 objectFit="cover"
               ></Image>
-              <Typography variant="h5">Accessories</Typography>
+              <Typography variant="h5" component="p">
+                Accessories
+              </Typography>
             </GridBox>
           </a>
         </Link>

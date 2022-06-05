@@ -48,284 +48,303 @@ function Intro() {
   `;
 
   return (
-    <ImageList
-      sx={{
-        width: "100%",
-        height: "600px",
-        overflow: "visible",
-        mb: 12,
-      }}
-      variant="quilted"
-      cols={4}
-      rows={6}
-    >
-      <ImageListItem
+    <section>
+      <ImageList
+        component="ul"
         sx={{
-          gridColumnEnd: { xs: "span 4!important", md: "span 2!important" },
+          width: "100%",
+          height: "600px",
+          overflow: "visible",
+          mb: 12,
         }}
+        variant="quilted"
+        cols={4}
         rows={6}
       >
-        <div className="intro-pagination"></div>
-        <Swiper
-          style={{
-            height: "100%",
+        <ImageListItem
+          sx={{
+            gridColumnEnd: { xs: "span 4!important", md: "span 2!important" },
           }}
-          pagination={{
-            bulletClass: "intro-pagination-bullet",
-            bulletActiveClass: "intro-pagination-bullet-active",
-            el: ".intro-pagination",
-          }}
-          modules={[Pagination]}
+          rows={6}
         >
-          <SwiperSlide>
-            <GridBox
-              sx={{
-                height: "100%",
-                display: "flex!important",
-                alignItems: "center",
-              }}
-            >
-              <Box
+          <div className="intro-pagination"></div>
+          <Swiper
+            style={{
+              height: "100%",
+            }}
+            pagination={{
+              bulletClass: "intro-pagination-bullet",
+              bulletActiveClass: "intro-pagination-bullet-active",
+              el: ".intro-pagination",
+            }}
+            modules={[Pagination]}
+          >
+            <SwiperSlide>
+              <GridBox
                 sx={{
-                  px: 3,
+                  height: "100%",
+                  display: "flex!important",
+                  alignItems: "center",
                 }}
               >
-                <Typography
-                  variant="h3"
-                  component="h1"
+                <Box
                   sx={{
-                    height: "100%",
-                    fontFamily: "Times New Roman, sans-serif",
-                    fontWeight: "bold",
-                    color: "#fff",
+                    px: 3,
                   }}
                 >
-                  Weedoo’s <br /> New Releases
-                </Typography>
-                <Typography variant="subtitle1" mb={2}>
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                </Typography>
-                <Button
-                  variant="outlined"
-                  sx={{
-                    position: "relative",
-                    zIndex: 1,
-                    color: "#fff",
-                    borderWidth: "5px",
-                    borderColor: "#fff",
-                    borderRadius: "0px",
-                    "&:hover": {
+                  <Typography
+                    variant="h3"
+                    component="h1"
+                    sx={{
+                      height: "100%",
+                      fontFamily: "Times New Roman, sans-serif",
+                      fontWeight: "bold",
+                      color: "#fff",
+                    }}
+                  >
+                    Weedoo’s <br /> New Releases
+                  </Typography>
+                  <Typography variant="subtitle1" component="p" mb={2}>
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                  </Typography>
+                  <Button
+                    variant="outlined"
+                    sx={{
+                      position: "relative",
+                      zIndex: 1,
+                      color: "#fff",
                       borderWidth: "5px",
-                      borderColor: "#ebebeb",
-                      color: "#f3e5f5",
-                    },
-                  }}
-                >
-                  Shop now
-                </Button>
-              </Box>
-              <Image
-                priority
-                layout="fill"
-                src="/images/shirt-03.jpg"
-                objectFit="cover"
-              ></Image>
-            </GridBox>
-          </SwiperSlide>
-          <SwiperSlide>
-            <GridBox
-              sx={{
-                height: "100%",
-
-                display: "flex!important",
-                alignItems: "center",
-              }}
-            >
-              <Box
+                      borderColor: "#fff",
+                      borderRadius: "0px",
+                      "&:hover": {
+                        borderWidth: "5px",
+                        borderColor: "#ebebeb",
+                        color: "#f3e5f5",
+                      },
+                    }}
+                  >
+                    Shop now
+                  </Button>
+                </Box>
+                <Image
+                  alt="Homepage Image 0"
+                  priority
+                  layout="fill"
+                  src="/images/shirt-03.jpg"
+                  objectFit="cover"
+                ></Image>
+              </GridBox>
+            </SwiperSlide>
+            <SwiperSlide>
+              <GridBox
                 sx={{
-                  px: 3,
+                  height: "100%",
+
+                  display: "flex!important",
+                  alignItems: "center",
                 }}
               >
-                <Typography
-                  variant="h3"
-                  component="h1"
+                <Box
                   sx={{
-                    height: "100%",
-                    fontFamily: "Times New Roman, sans-serif",
-                    fontWeight: "bold",
-                    color: "#fff",
+                    px: 3,
                   }}
                 >
-                  Weedoo’s <br /> New Releases
-                </Typography>
-                <Typography variant="subtitle1" mb={2}>
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                </Typography>
-                <Button
-                  variant="outlined"
-                  sx={{
-                    position: "relative",
-                    zIndex: 1,
-                    color: "#fff",
-                    borderWidth: "5px",
-                    borderColor: "#fff",
-                    borderRadius: "0px",
-                    "&:hover": {
+                  <Typography
+                    variant="h3"
+                    component="h1"
+                    sx={{
+                      height: "100%",
+                      fontFamily: "Times New Roman, sans-serif",
+                      fontWeight: "bold",
+                      color: "#fff",
+                    }}
+                  >
+                    Weedoo’s <br /> New Releases
+                  </Typography>
+                  <Typography variant="subtitle1" component="p" mb={2}>
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                  </Typography>
+                  <Button
+                    variant="outlined"
+                    sx={{
+                      position: "relative",
+                      zIndex: 1,
+                      color: "#fff",
                       borderWidth: "5px",
+                      borderColor: "#fff",
+                      borderRadius: "0px",
+                      "&:hover": {
+                        borderWidth: "5px",
 
-                      borderColor: "#ebebeb",
-                      color: "#f3e5f5",
-                    },
-                  }}
-                >
-                  Shop now
-                </Button>
-              </Box>
-              <Image
-                loading="lazy"
-                layout="fill"
-                src="/images/shirt-05.jpg"
-                objectFit="cover"
-              ></Image>
-            </GridBox>
-          </SwiperSlide>
-        </Swiper>
-      </ImageListItem>
-      <ImageListItem
-        cols={2}
-        rows={3}
-        sx={{
-          display: { xs: "none", md: "inline-block" },
-        }}
-      >
-        <GridBox
+                        borderColor: "#ebebeb",
+                        color: "#f3e5f5",
+                      },
+                    }}
+                  >
+                    Shop now
+                  </Button>
+                </Box>
+                <Image
+                  alt="Homepage Image 1"
+                  loading="lazy"
+                  layout="fill"
+                  src="/images/shirt-05.jpg"
+                  objectFit="cover"
+                ></Image>
+              </GridBox>
+            </SwiperSlide>
+          </Swiper>
+        </ImageListItem>
+        <ImageListItem
+          cols={2}
+          rows={3}
           sx={{
-            height: 300,
-            px: 3,
+            display: { xs: "none", md: "inline-block" },
           }}
         >
-          <Box>
-            <Typography variant="subtitle1">Our Bestsellers</Typography>
-            <Typography
-              variant="h4"
-              component="h1"
-              sx={{
-                height: "100%",
-                fontFamily: "Times New Roman, sans-serif",
-                fontWeight: "bold",
-              }}
-            >
-              Classic Tees
-            </Typography>
-            <Typography variant="subtitle1" className="slide_in">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-            </Typography>
-            <Button
-              variant="outlined"
-              disableRipple
-              disableFocusRipple
-              className="shop_now"
-              sx={{
-                position: "relative",
-                zIndex: 1,
-                color: "#fff",
-                border: "none",
-                px: 0,
-                "&::after": {
-                  content: "''",
-                  position: "absolute",
-                  bottom: "0",
-                  left: 0,
-                  height: "4px",
-                  width: "0",
-                  backgroundColor: "#fff",
-                  transition: "all 0.5s ease-out",
-                },
-                "&:hover": {
+          <GridBox
+            sx={{
+              height: 300,
+              px: 3,
+            }}
+          >
+            <Box>
+              <Typography variant="subtitle1" component="p">
+                Our Bestsellers
+              </Typography>
+              <Typography
+                variant="h4"
+                component="h1"
+                sx={{
+                  height: "100%",
+                  fontFamily: "Times New Roman, sans-serif",
+                  fontWeight: "bold",
+                }}
+              >
+                Classic Tees
+              </Typography>
+              <Typography
+                variant="subtitle1"
+                component="p"
+                className="slide_in"
+              >
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+              </Typography>
+              <Button
+                variant="outlined"
+                disableRipple
+                disableFocusRipple
+                className="shop_now"
+                sx={{
+                  position: "relative",
+                  zIndex: 1,
+                  color: "#fff",
                   border: "none",
-                  background: "transparent",
-                },
-              }}
-            >
-              Shop now
-            </Button>
-          </Box>
-          <Image
-            layout="fill"
-            src="/images/shirt-06.jpg"
-            objectFit="cover"
-            objectPosition="center 50%"
-          ></Image>
-        </GridBox>
-      </ImageListItem>
-      <ImageListItem
-        cols={2}
-        rows={3}
-        sx={{
-          display: { xs: "none", md: "inline-block" },
-        }}
-      >
-        <GridBox
+                  px: 0,
+                  "&::after": {
+                    content: "''",
+                    position: "absolute",
+                    bottom: "0",
+                    left: 0,
+                    height: "4px",
+                    width: "0",
+                    backgroundColor: "#fff",
+                    transition: "all 0.5s ease-out",
+                  },
+                  "&:hover": {
+                    border: "none",
+                    background: "transparent",
+                  },
+                }}
+              >
+                Shop now
+              </Button>
+            </Box>
+            <Image
+              alt="Homepage Image 2"
+              layout="fill"
+              src="/images/shirt-06.jpg"
+              objectFit="cover"
+              objectPosition="center 50%"
+            ></Image>
+          </GridBox>
+        </ImageListItem>
+        <ImageListItem
+          cols={2}
+          rows={3}
           sx={{
-            height: 300,
-            px: 3,
+            display: { xs: "none", md: "inline-block" },
           }}
         >
-          <Box>
-            <Typography variant="subtitle1">Our Bestsellers</Typography>
+          <GridBox
+            sx={{
+              height: 300,
+              px: 3,
+            }}
+          >
+            <Box>
+              <Typography variant="subtitle1" component="p">
+                Our Bestsellers
+              </Typography>
 
-            <Typography
-              variant="h4"
-              component="h1"
-              sx={{
-                height: "100%",
-                fontFamily: "Times New Roman, sans-serif",
-                fontWeight: "bold",
-              }}
-            >
-              Classic Tees
-            </Typography>
-            <Typography variant="subtitle1" className="slide_in">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-            </Typography>
-            <Button
-              variant="outlined"
-              disableRipple
-              disableFocusRipple
-              className="shop_now"
-              sx={{
-                position: "relative",
-                zIndex: 1,
-                color: "#fff",
-                border: "none",
-                px: 0,
-                "&::after": {
-                  content: "''",
-                  position: "absolute",
-                  bottom: "0",
-                  left: 0,
-                  height: "4px",
-                  width: "0",
-                  backgroundColor: "#fff",
-                  transition: "all 0.5s ease-out",
-                },
-                "&:hover": {
+              <Typography
+                variant="h4"
+                component="h1"
+                sx={{
+                  height: "100%",
+                  fontFamily: "Times New Roman, sans-serif",
+                  fontWeight: "bold",
+                }}
+              >
+                Classic Tees
+              </Typography>
+              <Typography
+                variant="subtitle1"
+                component="p"
+                className="slide_in"
+              >
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+              </Typography>
+              <Button
+                variant="outlined"
+                disableRipple
+                disableFocusRipple
+                className="shop_now"
+                sx={{
+                  position: "relative",
+                  zIndex: 1,
+                  color: "#fff",
                   border: "none",
-                  background: "transparent",
-                },
-              }}
-            >
-              Shop now
-            </Button>
-          </Box>
-          <Image
-            layout="fill"
-            src="/images/shirt-01.jpg"
-            objectFit="cover"
-          ></Image>
-        </GridBox>
-      </ImageListItem>
-    </ImageList>
+                  px: 0,
+                  "&::after": {
+                    content: "''",
+                    position: "absolute",
+                    bottom: "0",
+                    left: 0,
+                    height: "4px",
+                    width: "0",
+                    backgroundColor: "#fff",
+                    transition: "all 0.5s ease-out",
+                  },
+                  "&:hover": {
+                    border: "none",
+                    background: "transparent",
+                  },
+                }}
+              >
+                Shop now
+              </Button>
+            </Box>
+            <Image
+              alt="Homepage Image 3"
+              layout="fill"
+              src="/images/shirt-01.jpg"
+              objectFit="cover"
+            ></Image>
+          </GridBox>
+        </ImageListItem>
+      </ImageList>
+    </section>
   );
 }
 

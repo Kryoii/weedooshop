@@ -36,7 +36,7 @@ function MenSection(props) {
   };
 
   return (
-    <Stack mb={12}>
+    <Stack component="section" mb={12}>
       <Typography
         mb={4}
         variant="h4"
@@ -52,6 +52,7 @@ function MenSection(props) {
       </Typography>
       <Container fixed>
         <Box
+          component="ul"
           sx={{
             display: "grid",
             overflowY: "hidden",
@@ -104,7 +105,7 @@ function MenSection(props) {
                     </Typography>
                     <Typography
                       variant="h6"
-                      component="h5"
+                      component="p"
                       fontWeight="medium"
                       lineHeight={1.3}
                     >
@@ -128,7 +129,7 @@ function MenSection(props) {
                     </Stack>
                     <Typography
                       variant="h6"
-                      component="h5"
+                      component="p"
                       fontWeight="medium"
                       lineHeight={1.3}
                     >
@@ -140,26 +141,29 @@ function MenSection(props) {
             })}
         </Box>
       </Container>
-      <Button
-        variant="outlined"
-        sx={{
-          mt: 5,
-          position: "relative",
-          zIndex: 1,
-          color: "#000",
-          borderWidth: "5px",
-          borderColor: "#000",
-          borderRadius: "0px",
-          mx: "auto",
-          px: 4,
-          "&:hover": {
+
+      <Link passHref href="/men">
+        <Button
+          variant="outlined"
+          sx={{
+            mt: 5,
+            position: "relative",
+            zIndex: 1,
+            color: "#000",
             borderWidth: "5px",
-            borderColor: "#4d4d4d",
-          },
-        }}
-      >
-        View All
-      </Button>
+            borderColor: "#000",
+            borderRadius: "0px",
+            mx: "auto",
+            px: 4,
+            "&:hover": {
+              borderWidth: "5px",
+              borderColor: "#4d4d4d",
+            },
+          }}
+        >
+          <a>View All</a>
+        </Button>
+      </Link>
     </Stack>
   );
 }

@@ -72,9 +72,10 @@ function Featured() {
   }, [value]);
 
   return (
-    <Box sx={{ width: "100%", mb: 12 }}>
+    <Box component="section" sx={{ width: "100%", mb: 12 }}>
       <Typography
         variant="h3"
+        component="h1"
         sx={{
           fontFamily: "Times New Roman, sans-serif",
           fontWeight: "bold",

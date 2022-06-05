@@ -130,8 +130,7 @@ function Layout(props) {
                 <Link href="/men" passHref>
                   <a>
                     <Typography
-                      ref={menPopoverRef}
-                      aria-owns="men-over-popover"
+                      aria-owns={menPopover ? "men-over-popover" : undefined}
                       aria-haspopup="true"
                       onMouseEnter={() => {
                         OpenPopover("Men", true);
@@ -139,6 +138,8 @@ function Layout(props) {
                       onMouseLeave={() => {
                         OpenPopover("Men", false);
                       }}
+                      aria-label="Men Link"
+                      ref={menPopoverRef}
                     >
                       Men&apos;s
                     </Typography>
@@ -163,8 +164,11 @@ function Layout(props) {
                 <Link href="/women" passHref>
                   <a>
                     <Typography
+                      aria-label="Women Link"
                       ref={womenPopoverRef}
-                      aria-owns="women-over-popover"
+                      aria-owns={
+                        womenPopover ? "women-over-popover" : undefined
+                      }
                       aria-haspopup="true"
                       onMouseEnter={() => {
                         OpenPopover("Women", true);
@@ -196,8 +200,11 @@ function Layout(props) {
                 <Link href="/accessories" passHref>
                   <a>
                     <Typography
+                      aria-label="Accessories Link"
                       ref={accPopoverRef}
-                      aria-owns="accessories-over-popover"
+                      aria-owns={
+                        accPopover ? "accessories-over-popover" : undefined
+                      }
                       aria-haspopup="true"
                       onMouseEnter={() => {
                         OpenPopover("Acc", true);
@@ -277,6 +284,7 @@ function Layout(props) {
                     sx: {
                       height: "29px",
                     },
+                    "aria-label": "Search Bar",
                   }}
                   onKeyDown={(event) => {
                     if (event.key === "Enter") {
@@ -288,6 +296,7 @@ function Layout(props) {
                   }}
                 />
                 <IconButton
+                  aria-label="Search Bar"
                   onClick={openSearch}
                   sx={{
                     color: "#000",
@@ -298,6 +307,7 @@ function Layout(props) {
                 </IconButton>
               </Box>
               <IconButton
+                aria-label="Shopping Cart"
                 sx={{
                   color: "#000",
                 }}
@@ -321,6 +331,7 @@ function Layout(props) {
       <SidebarMenu />
 
       <Container
+        component="main"
         fixed
         sx={{
           my: 5,

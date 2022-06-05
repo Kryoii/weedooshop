@@ -7,4 +7,8 @@ module.exports = withBundleAnalyzer({
   images: {
     domains: ["cdn.shopify.com"],
   },
+  i18n: {
+    locales: ["en"],
+    defaultLocale: "en",
+  },
 });
